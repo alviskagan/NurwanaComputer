@@ -1,0 +1,71 @@
+{% extends "index.html "%}
+
+{% block body %}
+{% load staticfiles %}
+    <div class="col-lg-9">
+        {% for produk in data_produk %}
+        <div class="card mt-4">
+            <div class="card-body">
+            <img style="width: 300px; height: 200px;"  class="card-img-top img-fluid" src="{% static 'media/' %}{{ produk.foto_produk }}">
+            <h3 class="card-title">{{ produk.nama_produk }} </h3>
+            <h5>
+                {{ produk.kategori_produk.nama_kategori }}
+            </h5>
+            <h4>{{ produk.harga_produk }}</h4>
+            <div class="stock">
+                <h7 style="color:navy">
+                    Stock:  {{ produk.stok_produk }}
+                </h7>
+              </div>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+            <div class="quantity">
+                Kuantitas: 
+            </div>
+            <div class="next-number-picker-handler-wrap">
+                <a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-up " data-spm-anchor-id="a2o4j.pdp.0.0">
+                    <span unselectable="unselectable" class="next-number-picker-handler-up-inner" data-spm-anchor-id="a2o4j.pdp.0.i3.4c334ecbNXPW10">
+                        <i class="next-icon next-icon-add next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i5.4c334ecbNXPW10"></i>
+                    </span>
+                </a>
+                <a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-down next-number-picker-handler-down-disabled" data-spm-anchor-id="a2o4j.pdp.0.0">
+                    <span unselectable="unselectable" class="next-number-picker-handler-down-inner">
+                        <i class="next-icon next-icon-minus next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i4.4c334ecbNXPW10"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="next-number-picker-input-wrap">
+                <span class="next-input next-input-single next-input-medium next-number-picker-input">
+                    <input min="1" max="10" value="1" step="1" autocomplete="off" type="text" height="100%">
+                </span>
+            </div>
+            </div>
+            <div class="card-footer">
+              <small>Rating: {{ produk.rating_produk }}</small>
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+
+        <!-- /.card -->
+
+        <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+            Product Reviews
+        </div>
+        <div class="card-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+            <hr>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+            <hr>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+            <hr>
+            <a href="#" class="btn btn-success">Leave a Review</a>
+        </div>
+        </div>
+        <!-- /.card -->
+
+    </div>
+{% endblock %}
