@@ -51,10 +51,7 @@
             </li>
             <li class="nav-contact">
               <a class="nav-link" href="#">Contact</a>
-            </li><!-- 
-            <li>
-              <a class="nav-link" href="{# url 'accounts/account_login' #}">Login</a>
-            </li>    -->
+            </li>
             {% if user.is_authenticated %}
             <li><a class="nav-link" href="{% url 'account_logout'%}">Logout</a></li> 
               {%load account%}
