@@ -21,18 +21,17 @@ from django.conf.urls.static import static
 from django.conf.urls import url
 from django.conf import settings
 from django.views.static import serve
-
+from django.contrib.admin import sites
+from django.contrib.auth import views as auth_views
 from produk.views import index, detail_produk
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include("produk.urls")),
     path('', include("produk.urls")),
     path('accounts/', include('allauth.urls')),
     path('registration/',include("registration.urls")),
-    # path('', index, name='index'),
-    # path('detail_produk/<int:id_produk>', detail_produk, name="detail_produk"),
-
+    path('admin/logout/', auth_views.LogoutView.as_view(template_name='registration/logged_out.html'), name="logout"),
+    
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 
 
 if settings.DEBUG:

@@ -133,7 +133,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_REDIRECT_URL = '/'
-
+LOGIN_URL = '/login/'
+# LOGOUT_REDIRECT_URL = 'account_logout'
 #email backend
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
