@@ -68,7 +68,17 @@
     </nav>
 
     <!-- Page Content -->
-    
+    {% if user_id != None %}
+    <div class="container">
+      <h1>List Prediksi Produk:</h1>
+      <div class = "list-group">
+        {% for produk in data_prediksi %}
+        <a href="#" class="list-group-item">{{ produk }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+      
     <div class="container">
       {% block body %}
       <div class="row">

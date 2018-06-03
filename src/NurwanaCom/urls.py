@@ -24,6 +24,7 @@ from django.views.static import serve
 from django.contrib.admin import sites
 from django.contrib.auth import views as auth_views
 from produk.views import index, detail_produk
+# from pelanggan.views import profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,7 +32,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('registration/',include("registration.urls")),
     path('admin/logout/', auth_views.LogoutView.as_view(template_name='registration/logged_out.html'), name="logout"),
-    
+    # path('profile/', profile, name="profile")
+
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 
 
 if settings.DEBUG:
