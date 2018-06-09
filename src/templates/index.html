@@ -11,9 +11,26 @@
     <title>Nurwana Computer - Toko Komputer dan Elektronik</title>
     {% load staticfiles %}
     <link href= "{% static 'static_cdn/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href= "{% static 'static_cdn/vendor/bootstrap/js/bootstrap.bundle.min.js' %}" rel="stylesheet">
     <link href= "{% static 'static_cdn/css/shop-homepage.css' %}" rel="stylesheet">
+    <link href= "{% static 'static_cdn/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
     
+		<style>
+			#mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown > .nav-link .indicator {
+			position: absolute;
+			top: 5px;
+			left: 21px;
+			font-size: 10px;
+			}
+			
+			#mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item > .dropdown-message {
+			max-width: 300px;
+			}
+			
+			#mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item > .row > .col-md-9 > .dropdown-message {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			}
+		</style>
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -44,13 +61,10 @@
               </a>
             </li>
             <li class="nav-about">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-services">
-              <a class="nav-link" href="#">Services</a>
+              <a class="nav-link" href="{% url 'about' %}">About</a>
             </li>
             <li class="nav-contact">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="{% url 'contact' %}">Contact</a>
             </li>
             {% if user.is_authenticated %}
             <li><a class="nav-link" href="{% url 'account_logout'%}">Logout</a></li> 
@@ -129,14 +143,22 @@
                   <a href="#"><img class="card-img-top" style="height: 200px" src=" {% static 'media/' %}{{ produk.foto_produk }}" alt=""></a>
                   <div class="card-body">
                       <form method="get">
-                      <h4 class="card-title">
+                      <h6 class="card-title">
                       <!-- detail -->
                       <a href="{% url 'detail_produk' produk.id_produk %}" >{{ produk.nama_produk }}</a>
-                      </h4>
+                      </h6>
                       </form>
-                      <h5>
-                          {{ produk.kategori_produk.nama_kategori }}
-                      </h5>
+											<div>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+											</div>
+											<div class="dropdown-divider"></div>
+                      <h6 class="float-right"><span class="badge badge-secondary px-2">
+											{{ produk.kategori_produk.nama_kategori }}</span>
+											</h6>
                       <h6>{% load humanize %}
                           Rp. {{ produk.harga_produk|intcomma}}
                       </h6>

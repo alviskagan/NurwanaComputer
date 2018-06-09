@@ -62,3 +62,11 @@ def detail_produk(request, id):
     }
 
     return render(request, 'produk/detail_produk.html', produk)
+
+def about(request):
+
+    return render(request, 'produk/about.html')
+
+def contact(request):
+
+    return render(request, 'produk/contact.html')
