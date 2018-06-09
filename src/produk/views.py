@@ -70,3 +70,7 @@ def about(request):
 def contact(request):
 
     return render(request, 'produk/contact.html')
+
+def keranjang(request):
+
+    return render(request, 'produk/keranjang.html')

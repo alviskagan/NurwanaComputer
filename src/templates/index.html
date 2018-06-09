@@ -11,6 +11,7 @@
     <title>Nurwana Computer - Toko Komputer dan Elektronik</title>
     {% load staticfiles %}
     <link href= "{% static 'static_cdn/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href= "{% static 'static_cdn/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href= "{% static 'static_cdn/css/shop-homepage.css' %}" rel="stylesheet">
     <link href= "{% static 'static_cdn/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
     
@@ -59,6 +60,9 @@
               <a class="nav-link" href="/">Home
                 <span class="sr-only">(current)</span>
               </a>
+            </li>
+						<li class="nav-about">
+              <a class="nav-link" href="{% url 'keranjang' %}">Keranjang</a>
             </li>
             <li class="nav-about">
               <a class="nav-link" href="{% url 'about' %}">About</a>
@@ -211,7 +215,8 @@
     <!-- <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
     <script src="{% static 'static_cdn/vendor/jquery/jquery.min.js' %}"></script> 
-    <script src="{% static 'static_cdn/vendor/bootstrap/js/bootstrap.bundle.min.js' % }"></script>
+    <script src="{% static 'static_cdn/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'static_cdn/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
 
   </body>
