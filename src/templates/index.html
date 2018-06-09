@@ -162,20 +162,23 @@
                       <h6>{% load humanize %}
                           Rp. {{ produk.harga_produk|intcomma}}
                       </h6>
-                      <div class="stock">
-                        <h7 style="color:navy">
-                            Stock:  {{ produk.stok_produk }}
-                        </h7>
-                      </div>
-                      <!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p> -->
+                      <span style="width: 100%" class="small">
+											Tersedia :  {{ produk.stok_produk }} stok barang
+										</span>
                   </div>
                   <div class="card-footer">
-                      <small>Rating: {{ produk.rating_produk }}</small>
-                  </div>
-                  <div class="button-buy" style="width: 100%">
-                      <a id="paymentButton" data-id="{{produk.harga_produk}}" style="width: 100%;" href="#" class="paymentButton btn btn-primary" role="button">
-                        <button class="btn btn-primary" type="submit" >Buy Now</button>
-                      </a>
+                      <div class="row">
+								<div class="col-md-9 pr-0">
+									<a id="paymentButton" data-id="{{produk.harga_produk}}" href="#" class="paymentButton btn btn-success btn-block" role="button">
+										Beli Sekarang
+									</a>
+								</div>
+								<div class="col-md-3">
+									<a class="btn btn-light border">
+									<i class="fa fa-shopping-cart"></i>
+									</a>
+								</div>
+							</div>
                   </div>
                   </div>
               </div>
