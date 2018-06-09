@@ -2,70 +2,239 @@
 
 {% block body %}
 {% load staticfiles %}
-    <div class="col-lg-9">
-        {% for produk in data_produk %}
-        <div class="card mt-4">
-            <div class="card-body">
-            <img style="width: 300px; height: 200px;"  class="card-img-top img-fluid" src="{% static 'media/' %}{{ produk.foto_produk }}">
-            <h3 class="card-title">{{ produk.nama_produk }} </h3>
-            <h5>
-                {{ produk.kategori_produk.nama_kategori }}
-            </h5>
-            <h4>{{ produk.harga_produk }}</h4>
-            <div class="stock">
-                <h7 style="color:navy">
-                    Stock:  {{ produk.stok_produk }}
-                </h7>
-              </div>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-            <div class="quantity">
-                Kuantitas: 
-            </div>
-            <div class="next-number-picker-handler-wrap">
-                <a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-up " data-spm-anchor-id="a2o4j.pdp.0.0">
-                    <span unselectable="unselectable" class="next-number-picker-handler-up-inner" data-spm-anchor-id="a2o4j.pdp.0.i3.4c334ecbNXPW10">
-                        <i class="next-icon next-icon-add next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i5.4c334ecbNXPW10"></i>
-                    </span>
-                </a>
-                <a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-down next-number-picker-handler-down-disabled" data-spm-anchor-id="a2o4j.pdp.0.0">
-                    <span unselectable="unselectable" class="next-number-picker-handler-down-inner">
-                        <i class="next-icon next-icon-minus next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i4.4c334ecbNXPW10"></i>
-                    </span>
-                </a>
-            </div>
-            <div class="next-number-picker-input-wrap">
-                <span class="next-input next-input-single next-input-medium next-number-picker-input">
-                    <input min="1" max="10" value="1" step="1" autocomplete="off" type="text" height="100%">
-                </span>
-            </div>
-            </div>
-            <div class="card-footer">
-              <small>Rating: {{ produk.rating_produk }}</small>
-          </div>
-        </div>
-        </div>
-        {% endfor %}
+<div class="row">
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-12">
+				{% for produk in data_produk %}
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-4">
+								<img  class="card-img-top img-fluid" src="{% static 'media/' %}{{ produk.foto_produk }}">
+							</div>
+							<div class="col-md-8">
+								<h4 class="card-title">{{ produk.nama_produk }} </h4>
+								<div class="card-text">
+									<i style="color: #f7d120" class="fa fa-star"></i>
+									<i style="color: #f7d120" class="fa fa-star"></i>
+									<i style="color: #f7d120" class="fa fa-star"></i>
+									<i style="color: #f7d120" class="fa fa-star"></i>
+									<i style="color: #f7d120" class="fa fa-star"></i>
+								</div>
+								<div class="dropdown-divider"></div>
+								<h5 class="float-right">
+									<span class="badge badge-secondary">{{ produk.kategori_produk.nama_kategori }}</span>
+								</h5>
+								<h3 class="text-primary" ><strong>{% load humanize %} Rp {{ produk.harga_produk|intcomma }}</strong></h3>
+								<div class="stock">
+									<h7 style="color:navy">
+										Tersedia :  {{ produk.stok_produk }} stok barang
+									</h7>
+								</div>
+								<br>
+								<!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p> -->
+								<!-- <div class="quantity">
+									Kuantitas: 
+								</div> -->
+								<div class="next-number-picker-handler-wrap">
+									<a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-up " data-spm-anchor-id="a2o4j.pdp.0.0">
+										<span unselectable="unselectable" class="next-number-picker-handler-up-inner" data-spm-anchor-id="a2o4j.pdp.0.i3.4c334ecbNXPW10">
+											<i class="next-icon next-icon-add next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i5.4c334ecbNXPW10"></i>
+										</span>
+									</a>
+									<a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-down next-number-picker-handler-down-disabled" data-spm-anchor-id="a2o4j.pdp.0.0">
+										<span unselectable="unselectable" class="next-number-picker-handler-down-inner">
+											<i class="next-icon next-icon-minus next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i4.4c334ecbNXPW10"></i>
+										</span>
+									</a>
+								</div>
+								<!-- <div class="next-number-picker-input-wrap">
+									<span class="next-input next-input-single next-input-medium next-number-picker-input">
+									<input min="1" max="10" value="1" step="1" autocomplete="off" type="text" height="100%">
+									</span>
+								</div> -->
+								<!-- <div class="col-md-12"> -->
+								<div class="row">
+									<div class="col-md-6">
+										<a href="" class="btn btn-success btn-block">Beli Sekarang</a>
+									</div>
+									<div class="col-md-6">
+										<a href="" class="btn btn-light btn-block"><i class="fa fa-shopping-cart text-success"></i> Masukkan ke Keranjang</a>
+									</div>
+								</div>
+								<!-- </div> -->
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<small><i class="fa fa-check-circle-o"></i> Jaminan 100% Aman. Uang pasti kembali. Sistem pembayaran bebas penipuan <a href="" class="text-primary">Selengkapnya</a></small>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			<div class="col-md-12">
+				<div class="card card-outline-secondary my-4">
+					<div class="card-header">
+						<i class="fa fa-shopping-cart"></i> Keranjang Anda
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-light alert-dismissible fade show" role="alert">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="form-group">
+												<input class="form-control form-check-input" type="checkbox" name="siap_beli[]">
+											</div>
+										</div>
+										<div class="col-md-2">
+											<img style="overflow: hidden" class="rounded mb-4" src="http://placehold.it/80x80">
+										</div>
+										<div class="col-md-7">
+											<div class="dropdown-message" ><strong>SAMSUNG Monitor LED 22" 22F390 CURVED</strong><br></div>
+											<div class="dropdown-message">
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<span class="badge badge-secondary px-2 py-1 mt-1 my-2">Monitor</span>
+											</div>
+										
+											<div class="dropdown-message"><h5><strong class="text-primary">Rp. 2,165,000</strong></h5></div>
+										<div class="dropdown-message small"></div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group pt-2">
+											<label>Quantity</label>
+											<input type="number" class="form-control" name="" >
+										</div>
+									</div>
+									</div>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+						</div>
+					<div class="dropdown-divider"></div>
+					<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-light alert-dismissible fade show" role="alert">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="form-group">
+												<input class="form-control form-check-input" type="checkbox" name="siap_beli[]">
+											</div>
+										</div>
+										<div class="col-md-2">
+											<img style="overflow: hidden" class="rounded mb-4" src="http://placehold.it/80x80">
+										</div>
+										<div class="col-md-7">
+											<div class="dropdown-message" ><strong>SAMSUNG Monitor LED 22" 22F390 CURVED</strong><br></div>
+											<div class="dropdown-message">
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<span class="badge badge-secondary px-2 py-1 mt-1 my-2">Monitor</span>
+											</div>
+										
+											<div class="dropdown-message"><h5><strong class="text-primary">Rp. 2,165,000</strong></h5></div>
+										<div class="dropdown-message small"></div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group pt-2">
+											<label>Quantity</label>
+											<input type="number" class="form-control" name="" >
+										</div>
+									</div>
+									</div>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+						</div>
+					<div class="dropdown-divider"></div>
+					<a href="#" class="btn btn-success float-right">Leave a Review</a>
+				</div>
+			</div>
+			<!-- /.card -->
+		</div>
+		<div class="col-md-12">
+			<div class="card card-outline-secondary my-4">
+				<div class="card-header">
+					Product Reviews
+					</div>
+					<div class="card-body">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+					<small class="text-muted">Posted by Anonymous on 3/1/17</small>
+					<hr>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+					<small class="text-muted">Posted by Anonymous on 3/1/17</small>
+					<hr>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+					<small class="text-muted">Posted by Anonymous on 3/1/17</small>
+					<hr>
+					<a href="#" class="btn btn-success">Leave a Review</a>
+					</div>
+				</div>
+				<!-- /.card -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card card-outline-secondary">
+					<div class="card-header">
+						Product Reviews
+					</div>
+					<div class="card-body">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									Total Harga Barang
+								</div>
+								<div class="col-md-6 text-right">
+									Rp. 32434543
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									Diskon
+								</div>
+								<div class="col-md-6 text-right">
+									Rp. 9980
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									<strong>Total Harga</strong>
+								</div>
+								<div class="col-md-6 text-right">
+									<strong class="text-primary">Rp. 32434543</strong>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<a href="#" class="btn btn-success btn-block">Lanjutkan Pembayaran</a>
+					</div>
+				</div>
+				<!-- /.card -->
+			</div>
+			<!-- /.card -->
+		</div>
+	</div>
+</div>
 
-        <!-- /.card -->
 
-        <div class="card card-outline-secondary my-4">
-        <div class="card-header">
-            Product Reviews
-        </div>
-        <div class="card-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <a href="#" class="btn btn-success">Leave a Review</a>
-        </div>
-        </div>
-        <!-- /.card -->
-
-    </div>
-{% endblock %}
+{% endblock %}	
