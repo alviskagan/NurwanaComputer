@@ -14,6 +14,8 @@
     <link href= "{% static 'static_cdn/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href= "{% static 'static_cdn/css/shop-homepage.css' %}" rel="stylesheet">
     <link href= "{% static 'static_cdn/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+		
+    <script src="{% static 'static_cdn/vendor/jquery/jquery.min.js' %}"></script> 
     
 		<style>
 			#mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown > .nav-link .indicator {
@@ -56,30 +58,27 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="active">
               <a class="nav-link" href="/">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-						<li class="nav-about">
+						<li class="" >
               <a class="nav-link" href="{% url 'keranjang' %}">Keranjang</a>
             </li>
-            <li class="nav-about">
+            <li class="">
               <a class="nav-link" href="{% url 'about' %}">About</a>
             </li>
-            <li class="nav-contact">
+            <li class="">
               <a class="nav-link" href="{% url 'contact' %}">Contact</a>
             </li>
             {% if user.is_authenticated %}
-            <li><a class="nav-link" href="{% url 'account_logout'%}">Logout</a></li> 
+            <li class="" ><a class="nav-link" href="{% url 'account_logout'%}">Logout</a></li> 
               {%load account%}
-            <li><a class= "nav-link"> Hello, {% user_display user %}</a></li>
+            <li class="" ><a class= "nav-link"> Hello, {% user_display user %}</a></li>
             {% else %}
-            <li><a class="nav-link" href="{% url 'account_login'%}">Login</a></li>   
+            <li class="" ><a class="nav-link" href="{% url 'account_login'%}">Login</a></li>   
             {% endif %} 
-            
-          
-
           </ul>
         </div>
       </div>
@@ -210,11 +209,19 @@
       </div>
       <!-- /.container -->
     </footer>
+		
+		<script>
 
+			
+			$( '.navbar-nav a' ).on( 'click', function () {
+				$( '.navbar-nav' ).find( 'li.active' ).removeClass( 'active' );
+				$( this ).parent( 'li' ).addClass( 'active' );
+			});
+		</script>
+		
     <!-- Bootstrap core JavaScript -->
     <!-- <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-    <script src="{% static 'static_cdn/vendor/jquery/jquery.min.js' %}"></script> 
     <script src="{% static 'static_cdn/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'static_cdn/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
