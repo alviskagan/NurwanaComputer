@@ -57,13 +57,33 @@
 								<!-- <div class="col-md-12"> -->
 								<div class="row">
 									<div class="col-md-6">
-										<a href="" class="btn btn-success btn-block">Beli Sekarang</a>
+										<a data-toggle="modal" data-target="#konfirmasi" class="btn btn-success btn-block text-white">Beli Sekarang</a>
 									</div>
 									<div class="col-md-6">
 										<a href="{% url 'keranjang' %}" class="btn btn-light btn-block"><i class="fa fa-shopping-cart text-success"></i> Masukkan ke Keranjang</a>
 									</div>
 								</div>
 								<!-- </div> -->
+								
+								<!-- Beli Modal-->
+								<div class="modal fade" id="konfirmasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title text-center" id="exampleModalLabel">Lanjutkan Ke Pembelian</h5>
+												<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">×</span>
+												</button>
+											</div>
+											<div class="modal-body text-center">Pembelian dengan Login ATAU Pembelian Cepat?</div>
+											<div class="modal-footer">
+												<a class="col-md-6 btn btn-light float-left" href="{% url 'account_login' %}">Login</a>
+												<a class="col-md-6 btn btn-success" href="{% url 'beli_produk' produk.id_produk %}">Pembelian Cepat</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								
 							</div>
 						</div>
 					</div>

@@ -1,0 +1,152 @@
+{% extends "index.html "%}
+
+{% block body %}
+{% load staticfiles %}
+<div class="row">
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card card-outline-secondary">
+					<div class="card-header">
+						Detail Pembelian Cepat
+					</div>
+					<div class="card-body">
+						<div class="form-group">
+							<div class="form-row">
+								<label for="nama">Nama Anda</label>
+								<input class="form-control" id="nama" type="text" placeholder="Nama Anda" name="nama">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-row">
+								<div class="col-md-6">
+									<label for="email">Email</label>
+									<input class="form-control" id="email" type="text" placeholder="Email Anda" name="email">
+								</div>
+								<div class="col-md-6">
+										<label for="telp">Nomor Telepon</label>
+									<input class="form-control" id="telp" type="text" placeholder="0838xxxx" name="telp">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-row">
+								<label for="alamat">Nama Anda</label>
+								<textarea class="form-control" id="alamat" rows="4" placeholder="Alamat Anda" name="alamat"></textarea>
+								<p class="text-muted small">* Perhatian! Alamat ini akan menjadi alamat pengiriman barang</p>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<small><i class="fa fa-check-circle-o"></i> Jaminan 100% Aman. Uang pasti kembali. Sistem pembayaran bebas penipuan <a href="" class="text-primary">Selengkapnya</a></small>
+					</div>
+				</div>
+				<!-- /.card -->
+			</div>
+			<div class="col-md-12">
+				{% for produk in data_produk %}
+				<div class="card my-4">
+					<div class="card-header">
+						Detail Barang
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-3">
+								<img  class="card-img-top img-fluid"src="{% static 'media/' %}{{ produk.foto_produk }}">
+							</div>
+							<div class="col-md-8">
+								<div class="row">
+									<div class="col-md-9">
+										<h6 class="card-title">{{ produk.nama_produk }} </h6>
+									</div>
+									<div class="col-md-3 text-right">
+										<input class="form-control" id="jumlah" type="number" name="jumlah">
+									</div>
+									<div class="col-md-12 pt-3">
+										<div class="row">
+											<div class="col-md-5">
+												<h6>{% load humanize %} Rp {{ produk.harga_produk|intcomma }}</h6>
+											</div>
+											<div class="col-md-7">
+												<input class="btn btn-success float-right" type="submit" value="Beli Sekarang">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="next-number-picker-handler-wrap">
+									<a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-up " data-spm-anchor-id="a2o4j.pdp.0.0">
+										<span unselectable="unselectable" class="next-number-picker-handler-up-inner" data-spm-anchor-id="a2o4j.pdp.0.i3.4c334ecbNXPW10">
+											<i class="next-icon next-icon-add next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i5.4c334ecbNXPW10"></i>
+										</span>
+									</a>
+									<a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-down next-number-picker-handler-down-disabled" data-spm-anchor-id="a2o4j.pdp.0.0">
+										<span unselectable="unselectable" class="next-number-picker-handler-down-inner">
+											<i class="next-icon next-icon-minus next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i4.4c334ecbNXPW10"></i>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card card-outline-secondary">
+					<div class="card-header">
+						<i class="fa fa-bell-o"></i> Rekomendasi
+					</div>
+						<div class="list-group list-group-flush small">
+              <a class="list-group-item list-group-item-action" href="#">
+                <div class="media">
+                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/45x45" alt="">
+                  <div class="media-body">
+                    <strong>ORIGINAL - Razer BlackWidow Chroma V2</strong>
+										<div class="row">
+											<div class="col-md-6 text-muted">Rp. 4,970,000,-</div>
+											<div class="col-md-6 text-muted text-right"><span style="font-weight: 300" class="badge badge-secondary">Keyboard</span></div>
+										</div>
+                  </div>
+                </div>
+              </a>
+							<a class="list-group-item list-group-item-action" href="#">
+                <div class="media">
+                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/45x45" alt="">
+                  <div class="media-body">
+                    <strong>ORIGINAL - Razer BlackWidow Chroma V2</strong>
+										<div class="row">
+											<div class="col-md-6 text-muted">Rp. 4,970,000,-</div>
+											<div class="col-md-6 text-muted text-right"><span style="font-weight: 300" class="badge badge-secondary">Keyboard</span></div>
+										</div>
+                  </div>
+                </div>
+              </a>
+							<a class="list-group-item list-group-item-action" href="#">
+                <div class="media">
+                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/45x45" alt="">
+                  <div class="media-body">
+                    <strong>ORIGINAL - Razer BlackWidow Chroma V2</strong>
+										<div class="row">
+											<div class="col-md-6 text-muted">Rp. 4,970,000,-</div>
+											<div class="col-md-6 text-muted text-right"><span style="font-weight: 300" class="badge badge-secondary">Keyboard</span></div>
+										</div>
+                  </div>
+                </div>
+              </a>
+              <a class="list-group-item list-group-item-action" href="#">Lihat semua item..</a>
+            </div>
+            <div class="card-footer small text-muted">Terdapat 5 Rekomendasi barang yang sejenis</div>
+				</div>
+				<!-- /.card -->
+			</div>
+			<!-- /.card -->
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}	
