@@ -79,7 +79,25 @@ def beli_produk(request, id):
         "kategori_produk": all_kategori
     }
 
-    return render(request, 'produk/beli_produk.html', produk)		
+    return render(request, 'produk/beli_produk.html', produk)
+
+def invoice(request, id):
+
+    #pashing data dari views index
+    # if request.method == 'GET':
+    # # blom fix
+    # data_produk = request.GET.get("id_produk", "")
+    all_produks = Produk.objects.filter(id_produk__exact = id ).select_related('kategori_produk')
+    all_kategori = Kategori.objects.all()
+    print(all_produks)
+    print(id)
+    # print(Kategori.objects.filter(id_kategori = 1))
+    produk = {
+        "data_produk": all_produks,
+        "kategori_produk": all_kategori
+    }
+
+    return render(request, 'produk/invoice.html', produk)
 
 def about(request):
 
