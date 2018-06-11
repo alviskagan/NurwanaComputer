@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # 'django.contrib.sites.models.Site'
-    # 'registration',
     'produk',
+    'pelanggan',
 
     'allauth',
     'allauth.account',
@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',     
 ]
+
+
 
 SITE_ID = 2
 

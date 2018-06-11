@@ -77,8 +77,6 @@ def getSimilarity(item_1, item_2):
     return hasil  
 ### end uji coba ###
 
-
-
 ### block algoritma jiang-conrath calculation ###
 
 def list_corpus(param, status_data = 0):
@@ -182,7 +180,7 @@ def nama_produk(param):
 
 # print(nama_produk(2))
 
-def jcn_2(a,b):
+def jcn_similarity(a,b):
     data_a = corpus_kategori(a)
     data_b = corpus_kategori(b)
     if data_a != data_b:
@@ -194,15 +192,13 @@ def jcn_2(a,b):
 
 
 
-
 def combinedSim(item_1, item_2):
     a = 0.25
     cf = getSimilarity(item_1, item_2)
-    jcn = jcn_2(item_1, item_2)
+    jcn = jcn_similarity(item_1, item_2)
     # print(cf, jcn)
     result = a*cf + (1-a)*jcn
     return result
-
 
 def getListProduk():
     produk = pd.read_sql_query('SELECT id_produk FROM produk_produk ORDER by id_produk', connection)
@@ -211,8 +207,6 @@ def getListProduk():
         id_produk += [line[1]]
     
     return id_produk
-
-
 
 def getIdProdukTerrating(id_user):
     query = pd.read_sql_query('SELECT id_produk_id FROM produk_rating WHERE id_pelanggan_id = ' + str(id_user) + '', connection)
@@ -224,10 +218,11 @@ def getIdProdukTerrating(id_user):
 def getValuePrediksi(id_user, id_produk_a):
     produk_a = id_produk_a
     query_user = pd.read_sql_query('SELECT id_produk_id FROM produk_rating WHERE id_pelanggan_id = ' + str(id_user) + ' AND id_produk_id != ' + str(produk_a) +'', connection)
+    
     Atas = Bawah = 0
     RataRating_a = rataRatingProduk(produk_a)
-    
-    if RataRating_a != 0:
+    # print(RataRating_a)
+    if RataRating_a != 0 :
         for line in query_user.itertuples():
             produk_b = line[1]
             rating_b = getRatingUser(id_user, produk_b)
@@ -239,10 +234,20 @@ def getValuePrediksi(id_user, id_produk_a):
 
             bawah = abs(combine_ab)
             Bawah = Bawah + bawah
-            # print(produk_a , produk_b, atas, bawah)
-        result = RataRating_a + (Atas/Bawah)
+            
+            
+            # print(produk_a, produk_b )
+            # print(combine_ab)
 
-    elif RataRating_a == 0:
+            # print(bawah)
+            # print(produk_a , produk_b, combine_ab)
+        # print(RataRating_a,Atas, Bawah)
+        if Atas != 0 and Bawah != 0:
+            result = RataRating_a + (Atas/Bawah)
+        else:
+            result = RataRating_a
+
+    elif RataRating_a == 0 :
         for line in query_user.itertuples():
             produk_b = line[1]
             rating_b = getRatingUser(id_user, produk_b)
@@ -254,19 +259,43 @@ def getValuePrediksi(id_user, id_produk_a):
             bawah = abs(combine_ab)
             Bawah = Bawah + bawah
             # print(produk_a , produk_b, atas, bawah)
-        result = Atas/Bawah
-    # print(Atas, Bawah)
+        # print(RataRating_a)
+        if Atas == 0 and Bawah == 0:
+            result = 0
+        else:
+            result = Atas/Bawah
     
     return result
 
+# print(getValuePrediksi(2,1))
+# print(getValuePrediksi(5,2))
+
+def getListRating(id_user):
+    query = pd.read_sql_query('SELECT id_produk_id FROM produk_rating WHERE id_pelanggan_id = ' + str(id_user) + '', connection)
+    array_id = []
+    for line in query.itertuples():
+        array_id += [line[1]]
+    return array_id
+
+# print(getListRating(3))
 
 def getPrediksi(id_user):
-    hasil = []
-    for produk_a in getListProduk(): 
-        nilai_prediksi = getValuePrediksi(id_user, produk_a)
-        hasil += [[nilai_prediksi, produk_a]]
+    if id_user > 1 :
+        hasil = []
+        #id produk yang pernah dibeli
+        produk_terbeli = getListRating(id_user)
+        
+        for produk_a in getListProduk(): 
+            nilai_prediksi = getValuePrediksi(id_user, produk_a)
+            # memfilter agar produk yang pernah terbeli tidak dimunculkan pada rekomendasi
+            if produk_a != produk_terbeli:
+                hasil += [[nilai_prediksi, produk_a]]
 
-    hasil.sort( key = lambda x: float(x[0]),  reverse = True)      
-    return hasil[:5]
-
-# print(getPrediksi(2))
+        hasil.sort( key = lambda x: float(x[0]),  reverse = True)      
+        return hasil[:5]
+# print("ins")
+# print(getPrediksi(5))
+# print("bud")
+# print(getPrediksi(4))
+# print("cap")
+# print(getPrediksi(5))

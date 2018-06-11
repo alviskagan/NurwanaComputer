@@ -30,9 +30,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("produk.urls")),
     path('accounts/', include('allauth.urls')),
-    path('registration/',include("registration.urls")),
+    path('profile/',include("pelanggan.urls")),
     path('admin/logout/', auth_views.LogoutView.as_view(template_name='registration/logged_out.html'), name="logout"),
-    # path('profile/', profile, name="profile")
+    
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 
 
