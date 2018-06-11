@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # 'django.contrib.sites.models.Site'
     # 'registration',
     'produk',
+    'profile',
 
     'allauth',
     'allauth.account',

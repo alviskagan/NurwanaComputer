@@ -110,6 +110,10 @@ def contact(request):
 def keranjang(request):
 
     return render(request, 'produk/keranjang.html')
+		
+def profil(request):
+
+    return render(request, 'produk/profil.html')
 
 def pembelian(request):
 
