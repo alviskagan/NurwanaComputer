@@ -13,9 +13,30 @@
         
 
     <link href= "{% static 'static_cdn/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href= "{% static 'static_cdn/vendor/bootstrap/js/bootstrap.bundle.min.js' %}" rel="stylesheet">
+    <link href= "{% static 'static_cdn/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href= "{% static 'static_cdn/css/shop-homepage.css' %}" rel="stylesheet">
+    <link href= "{% static 'static_cdn/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href= "{% static 'static_cdn/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+		
+    <script src="{% static 'static_cdn/vendor/jquery/jquery.min.js' %}"></script> 
     
+		<style>
+			#mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown > .nav-link .indicator {
+			position: absolute;
+			top: 5px;
+			left: 21px;
+			font-size: 10px;
+			}
+			
+			#mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item > .dropdown-message {
+			max-width: 300px;
+			}
+			
+			#mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item > .row > .col-md-9 > .dropdown-message {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			}
+		</style>
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -34,36 +55,36 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Nurwana Computer</a>
+        <a class="navbar-brand" href="/">Nurwana Computer</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="active">
               <a class="nav-link" href="/">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-about">
-              <a class="nav-link" href="#">About</a>
+						<li class="" >
+              <a class="nav-link" href="{% url 'keranjang' %}">Keranjang</a>
             </li>
-            <li class="nav-services">
-              <a class="nav-link" href="#">Services</a>
+            <li class="">
+              <a class="nav-link" href="{% url 'about' %}">About</a>
             </li>
-            <li class="nav-contact">
-              <a class="nav-link" href="#">Contact</a>
+            <li class="">
+              <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+            </li>
+						<li class="">
+              <a class="nav-link" href="{% url 'pembelian' %}">Pembelian</a>
             </li>
             {% if user.is_authenticated %}
-            <li><a class="nav-link" href="{% url 'account_logout'%}">Logout</a></li> 
+            <li class="" ><a class="nav-link" href="{% url 'account_logout'%}">Logout</a></li> 
               {%load account%}
             <li><a class= "nav-link" href="{% url 'profile_pelanggan'%}"> Hello, {% user_display user %}</a></li>
             {% else %}
-            <li><a class="nav-link" href="{% url 'account_login'%}">Login</a></li>   
+            <li class="" ><a class="nav-link" href="{% url 'account_login'%}">Login</a></li>   
             {% endif %} 
-            
-          
-
           </ul>
         </div>
       </div>
@@ -221,36 +242,43 @@
                   <a href="#"><img class="card-img-top" style="height: 200px" src=" {% static 'media/' %}{{ produk.foto_produk }}" alt=""></a>
                   <div class="card-body">
                       <form method="get">
-                      <h4 class="card-title">
+                      <h6 class="card-title">
                       <!-- detail -->
                       <a href="{% url 'detail_produk' produk.id_produk %}" >{{ produk.nama_produk }}</a>
-                      </h4>
+                      </h6>
                       </form>
-                      <h5>
-                          {{ produk.kategori_produk.nama_kategori }}
-                      </h5>
+											<div>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+												<i style="color: #f7d120" class="fa fa-star"></i>
+											</div>
+											<div class="dropdown-divider"></div>
+                      <h6 class="float-right"><span class="badge badge-secondary px-2">
+											{{ produk.kategori_produk.nama_kategori }}</span>
+											</h6>
                       <h6>{% load humanize %}
                           Rp. {{ produk.harga_produk|intcomma}}
                       </h6>
-                      <div class="stock">
-                        <h7 style="color:navy">
-                            Stock:  {{ produk.stok_produk }}
-                        </h7>
-                      </div>
-                      <!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p> -->
+                      <span style="width: 100%" class="small">
+											Tersedia :  {{ produk.stok_produk }} stok barang
+										</span>
                   </div>
                   <div class="card-footer">
-                      <small>Rating: {{ produk.rating_produk }}</small>
+                      <div class="row">
+								<div class="col-md-9 pr-0">
+									<a id="paymentButton" data-id="{{produk.harga_produk}}" href="{% url 'keranjang' %}" class="paymentButton btn btn-success btn-block" role="button">
+										Beli Sekarang
+									</a>
+								</div>
+								<div class="col-md-3">
+									<a class="btn btn-light border">
+									<i class="fa fa-shopping-cart"></i>
+									</a>
+								</div>
+							</div>
                   </div>
-                  <!-- <div class="button-buy" style="width: 100%" data-toggle="modal" data-target="#buyModal"> -->
-                  <button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#buyModal" >
-                    <a data-toggle="modal" data-target="#buyModal" id="paymentButton" data-id="{{produk.id_produk}}" style="width: 100%;" href="#buyModal" class="paymentButton btn btn-primary" role="button">
-                      Buy Now
-                    </a>
-                  </button>
-                      
-                      
-                  <!-- </div> -->
                   </div>
               </div>
                   
@@ -277,12 +305,24 @@
       </div>
       <!-- /.container -->
     </footer>
+		
+		<script>
 
+			
+			$( '.navbar-nav a' ).on( 'click', function () {
+				$( '.navbar-nav' ).find( 'li.active' ).removeClass( 'active' );
+				$( this ).parent( 'li' ).addClass( 'active' );
+			});
+		</script>
+		
     <!-- Bootstrap core JavaScript -->
     <!-- <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-    <script src="{% static 'static_cdn/vendor/jquery/jquery.min.js' %}"></script> 
-    <script src="{% static 'static_cdn/vendor/bootstrap/js/bootstrap.bundle.min.js' % }"></script>
+    <script src="{% static 'static_cdn/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'static_cdn/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'static_cdn/vendor/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'static_cdn/vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'static_cdn/vendor/js/sb-admin-datatables.min.js' %}"></script>
 
 
   </body>
