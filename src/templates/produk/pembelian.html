@@ -1,0 +1,93 @@
+{% extends "index.html "%}
+
+{% block body %}
+{% load staticfiles %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card mb-4">
+			<div class="card-header">
+				Riwayat Pembelian Anda
+			</div>
+			<div class="card-body">
+				<div class="col-md-12">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>Nama Barang</th>
+									<th>Jenis</th>
+									<th>Harga</th>
+									<th>Jumlah</th>
+									<th>Total</th>
+									<th class="text-center" >Status</th>
+									<th class="text-center" >Unggah Bukti</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1.</td>
+									<td>Lorem Ipsum</td>
+									<td>Keyboard</td>
+									<td>Rp 20,000,000,00</td>
+									<td>3</td>
+									<td>Rp 7,165,000</td>
+									<td class="text-center" ><span class="badge badge-danger">Blm Konfirmasi</span></td>
+									<td class="text-center"><a data-toggle="modal" data-target="#pembelian" class="btn btn-success btn-sm text-white">Unggah Bukti</a></td>
+								</tr>
+								<tr>
+									<td>2.</td>
+									<td>Lorem Ipsum</td>
+									<td>Keyboard</td>
+									<td>Rp 20,000,000,00</td>
+									<td>3</td>
+									<td>Rp 7,165,000</td>
+									<td class="text-center" ><span class="badge badge-danger">Blm Konfirmasi</span></td>
+									<td class="text-center"><a data-toggle="modal" data-target="#pembelian" class="btn btn-success btn-sm text-white">Unggah Bukti</a></td>
+								</tr>
+								<tr>
+									<td>3.</td>
+									<td>Lorem Ipsum</td>
+									<td>Keyboard</td>
+									<td>Rp 20,000,000,00</td>
+									<td>3</td>
+									<td>Rp 7,165,000</td>
+									<td class="text-center" ><span class="badge badge-danger">Blm Konfirmasi</span></td>
+									<td class="text-center"><a data-toggle="modal" data-target="#pembelian" class="btn btn-success btn-sm text-white">Unggah Bukti</a></td>
+								</tr>
+								<!-- Pembelian Modal-->
+								<div class="modal fade" id="pembelian" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title text-center" id="exampleModalLabel">Unggah Bukti Transaksi</h5>
+												<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">×</span>
+												</button>
+											</div>
+											<div class="modal-body text-center">
+												<form method="POST" action="">
+													<div class="form-group">
+														<div class="form-row">
+															<label for="bukti">Upload Bukti</label>
+															<input class="form-control" type="file" name="bukti">
+														</div>
+													</div>
+													<div class="form-group">
+														<input type="submit" class="btn btn-success text-white float-right" value="Unggah Bukti">
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}	

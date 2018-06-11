@@ -1,0 +1,42 @@
+{% extends "index.html "%}
+
+{% block body %}
+{% load staticfiles %}
+<div class="row">
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body">
+					<img class="img-responsive img-fluid" src="{% static 'media/foto/1_Monitor_SAMSUNG_Monitor_LED_22_22F390_CURVED.png' %}">
+					<hr>
+					Lorem Ipsum
+					<hr>
+					loremipsum@gmail.com
+					<hr>
+					Jalan Parangtritis no. 11
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="card">
+				<div class="card-header">
+					Identitas Diri
+				</div>
+				<div class="card-body">
+					<div class="form-group">
+							<div class="form-row">
+								<div class="col-md-6">
+									<label for="nama">Nama Anda</label>
+									<input class="form-control" id="nama" type="text" placeholder="Nama Anda" name="nama">
+								</div>
+								<div class="col-md-6">
+									<label for="email">Email</label>
+									<input class="form-control" id="email" type="email" placeholder="alvis@gmail.com" name="email">
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+</div>
+
+{% endblock %}	
