@@ -1,7 +1,8 @@
 import locale, sys
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Produk, Kategori,Rating
 from .algoritma import getPrediksi
+from cart.forms import CartAddProductForm, stok
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -49,16 +50,34 @@ def detail_produk(request, id):
     # # blom fix
     # data_produk = request.GET.get("id_produk", "")
     all_produks = Produk.objects.filter(id_produk__exact = id ).select_related('kategori_produk')
-    all_kategori = Kategori.objects.all()
     print(all_produks)
-    print(id)
+    stok = Produk.objects.get(id_produk__exact = id).stok_produk
+    print(stok)
+    all_kategori = Kategori.objects.all()
+    # print(all_produks)
+    # print(id)
+    # stok(id)
     # print(Kategori.objects.filter(id_kategori = 1))
+    cart_product_form = CartAddProductForm()
+    print(cart_product_form)
     produk = {
         "data_produk": all_produks,
+        'cart_product_form': cart_product_form,
         "kategori_produk": all_kategori
     }
 
     return render(request, 'produk/detail_produk.html', produk)
+
+
+# def product_detail(request, id):
+#     product = get_object_or_404(Product, id=id, available=True)
+#     cart_product_form = CartAddProductForm()
+#     context = {
+#         'product': product,
+#         'cart_product_form': cart_product_form
+#     }
+#     return render(request, 'shop/product/detail.html', context)
+
 
 def beli_produk(request, id):
 

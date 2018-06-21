@@ -10,7 +10,9 @@
       <div class="card-body">
         <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
           {% csrf_token %}
-					<div class="form-group">
+          {{ form.as_p }}
+          
+          <!-- <div class="form-group">
             <div class="form-row">
               <div class="col-md-12">
                 <label for="id_username">Username</label>
@@ -18,7 +20,6 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
             <label for="id_email">Email address</label>
             <input class="form-control" id="id_email" type="email" aria-describedby="emailHelp" placeholder="Email" required>
           </div>
@@ -33,7 +34,7 @@
                 <input class="form-control" id="id_password2" type="password" placeholder="Confirm password" name="password2">
               </div>
             </div>
-          </div>
+          </div> -->
 					{% if redirect_field_value %}
 					<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
 					{% endif %}

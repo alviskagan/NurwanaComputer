@@ -67,7 +67,7 @@
               </a>
             </li>
 						<li class="" >
-              <a class="nav-link" href="{% url 'keranjang' %}">Keranjang</a>
+              <a class="nav-link" href="{% url 'cart:cart_detail' %}">Keranjang</a>
             </li>
             <li class="">
               <a class="nav-link" href="{% url 'about' %}">About</a>
@@ -81,7 +81,7 @@
             {% if user.is_authenticated %}
             <li class="" ><a class="nav-link" href="{% url 'account_logout'%}">Logout</a></li> 
               {%load account%}
-            <li><a class= "nav-link" href="{% url 'profile_pelanggan'%}"> Hello, {% user_display user %}</a></li>
+            <li><a class= "nav-link" href="{% url 'profile_pelanggan' %}"> Hello, {% user_display user %}</a></li>
             {% else %}
             <li class="" ><a class="nav-link" href="{% url 'account_login'%}">Login</a></li>   
             {% endif %} 
@@ -190,8 +190,28 @@
         </div>
         {% endif %}
       </div>
+      
     </div>
+    
+    <div class="container">
+        <div class="row" style="margin-top: 6%">
+            <button class="btn btn-info pull-right">
+                {% with totail_items=cart|length %}
+                    {% if cart|length > 0 %}
+                        My Shopping Order:
+                        <a href="{% url 'cart:cart_detail' %}" style="color: #ffffff">
+                            {{ totail_items }} item {{ totail_items|pluralize }}, Rp. {{ cart.get_total_price }}
+                        </a>
+                        {% else %}
+                        Your cart is empty.
+                    {% endif %}
+                {% endwith %}
+            </button>
+        </div>
+    </div>
+
       <div class="container">
+        
       {% block body %}
       <div class="row">
 
@@ -206,7 +226,6 @@
         </div>
         <!-- /.col-lg-3 -->
         <div class="col-lg-9">
-          
           
           <!-- <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -239,7 +258,11 @@
               {% for produk in data_produk %}
               <div class="col-lg-4 col-md-6 mb-4" >
                   <div class="card h-100">
+                  {% if produk.foto_produk != None %}
                   <a href="#"><img class="card-img-top" style="height: 200px" src=" {% static 'media/' %}{{ produk.foto_produk }}" alt=""></a>
+                  {% else %}
+                  <a href="#"><img class="card-img-top" style="height: 200px" src="http://placehold.it/750x450" alt=""></a>
+                  {% endif %}
                   <div class="card-body">
                       <form method="get">
                       <h6 class="card-title">

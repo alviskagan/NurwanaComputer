@@ -2,20 +2,20 @@
 
 {% block body %}
 {% load staticfiles %}
+{% for data in data_user %}              
 <div class="row">
 		<div class="col-md-3">
 			<div class="card">
 				<div class="card-body">
 					<img class="img-responsive img-fluid" src="{% static 'media/foto/1_Monitor_SAMSUNG_Monitor_LED_22_22F390_CURVED.png' %}">
 					<hr>
-					Lorem Ipsum
+					{{ data.username }}
 					<hr>
-					loremipsum@gmail.com
-					<hr>
-					Jalan Parangtritis no. 11
+					{{ data.email }}
 				</div>
 			</div>
 		</div>
+
 		<div class="col-md-9">
 			<div class="card">
 				<div class="card-header">
@@ -25,18 +25,77 @@
 					<div class="form-group">
 							<div class="form-row">
 								<div class="col-md-6">
-									<label for="nama">Nama Anda</label>
-									<input class="form-control" id="nama" type="text" placeholder="Nama Anda" name="nama">
+									<label for="nama">Username: </label>
+									{{ data.username }}
 								</div>
 								<div class="col-md-6">
-									<label for="email">Email</label>
-									<input class="form-control" id="email" type="email" placeholder="alvis@gmail.com" name="email">
+									<label for="email">Email: </label>
+									{{ data.email }}
+								</div>
+								<div class="col-md-6">
+									<label for="nama_depan">Nama Depan: </label>
+									{{ data.first_name }}
+								</div>
+								<div class="col-md-6">
+									<label for="email">Nama Belakang: </label>
+									{{ data.last_name }}
+								</div>
+								<div class="col-md-6">
+									<label for="email">Alamat: </label>
+									alamat
+								</div>
+								<div class="col-md-6">
+									<label for="email">No.HP: </label>
+									+62
 								</div>
 							</div>
 						</div>
 				</div>
 			</div>
-		</div>
+			<div class="col-md-9">
+					<a id="paymentButton" class="btn btn-success btn-block" role="button">
+						Edit	
+					</a>
+			</div>
+		<!-- </div>
+		<div class="col-md-9">
+				<div class="card">
+					<div class="card-header">
+						Identitas Diri
+					</div>
+					<div class="card-body">
+						<div class="form-group">
+								<div class="form-row">
+									<div class="col-md-6">
+										<label for="nama">Username</label>
+										<input class="form-control" id="{{ data.username }}" type="text" placeholder="Nama Anda" name="nama" value="{{ data.username }}">
+									</div>
+									<div class="col-md-6">
+										<label for="email">Email</label>
+										<input class="form-control" id="{{ data.email }}" type="email" placeholder="yourname@mail.com" name="email" value="{{ data.email }}">
+									</div>
+									<div class="col-md-6">
+										<label for="nama_depan">Nama Depan</label>
+										<input class="form-control" id="{{ data.first_name }}" type="text" placeholder="Nama Depan" name="nama" value="{{ data.first_name }}">
+									</div>
+									<div class="col-md-6">
+										<label for="email">Nama Belakang</label>
+										<input class="form-control" id="{{ data.last_name }}" type="text" placeholder="Nama Belakang" name="email" value="{{ data.last_name }}">
+									</div>
+									<div class="col-md-6">
+										<label for="email">Alamat</label>
+										<input class="form-control" id="email" type="text" placeholder="Yogyakarta" name="alamat">
+									</div>
+									<div class="col-md-6">
+										<label for="email">No.HP</label>
+										<input class="form-control" id="email" type="text" placeholder="+62 " name="nomor hp">
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+				
+			</div> -->
 </div>
-
+{% endfor %}
 {% endblock %}	
