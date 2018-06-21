@@ -206,7 +206,7 @@ def nama_produk(param):
 
 # print(nama_produk(2))
 
-def jcn_2(a,b):
+def jcn_similarity(a,b):
     # print(corpus_kategori(a))
     # print(corpus_kategori(b))
     data_a = corpus_kategori(a)
@@ -221,7 +221,7 @@ def jcn_2(a,b):
     # cf_b = hasil_cf(b)
     # return result_jcn, cf_a, cf_b
     return result_jcn
-# print(jcn_2(1,14))
+# print(jcn_similarity(1,14))
 
 a = 0.25
 
@@ -247,7 +247,7 @@ def combine(array):
 def combinedSim(item_1, item_2):
     a = 0.25
     cf = getSimilarity(item_1, item_2)
-    jcn = jcn_2(item_1, item_2)
+    jcn = jcn_similarity(item_1, item_2)
     # print(cf, jcn)
     result = a*cf + (1-a)*jcn
     return result

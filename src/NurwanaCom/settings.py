@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # 'django.contrib.sites.models.Site'
-    # 'registration',
     'produk',
     'profile',
+    'cart',
 
     'allauth',
     'allauth.account',
@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',     
 ]
+
+AUTH_PROFILE_MODULE = 'profile.Customer'   
 
 SITE_ID = 2
 
@@ -78,6 +80,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # `allauth` needs this from django
                 'django.template.context_processors.request',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -110,7 +113,7 @@ SOCIALACCOUNT_PROVIDERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db_user_kosong.sqlite3'),
     }
 }
 
@@ -169,3 +172,5 @@ if DEBUG:
     MEDIA_ROOT  = os.path.join(BASE_DIR, 'static/media')
 
     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),'/Nurwana Computer/src/static/')
+
+CART_SESSION_ID = 'cart'

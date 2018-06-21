@@ -10,6 +10,8 @@
 
     <title>Nurwana Computer - Toko Komputer dan Elektronik</title>
     {% load staticfiles %}
+        
+
     <link href= "{% static 'static_cdn/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href= "{% static 'static_cdn/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href= "{% static 'static_cdn/css/shop-homepage.css' %}" rel="stylesheet">
@@ -38,11 +40,11 @@
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> 
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-     -->
+     
     <!-- Custom styles for this template -->
     <!-- <link href="css/shop-homepage.css" rel="stylesheet"> -->
 
@@ -65,7 +67,7 @@
               </a>
             </li>
 						<li class="" >
-              <a class="nav-link" href="{% url 'keranjang' %}">Keranjang</a>
+              <a class="nav-link" href="{% url 'cart:cart_detail' %}">Keranjang</a>
             </li>
             <li class="">
               <a class="nav-link" href="{% url 'about' %}">About</a>
@@ -79,7 +81,7 @@
             {% if user.is_authenticated %}
             <li class="" ><a class="nav-link" href="{% url 'account_logout'%}">Logout</a></li> 
               {%load account%}
-            <li class="" ><a class= "nav-link"> Hello, {% user_display user %}</a></li>
+            <li><a class= "nav-link" href="{% url 'profile_pelanggan' %}"> Hello, {% user_display user %}</a></li>
             {% else %}
             <li class="" ><a class="nav-link" href="{% url 'account_login'%}">Login</a></li>   
             {% endif %} 
@@ -87,20 +89,129 @@
         </div>
       </div>
     </nav>
-
+   
     <!-- Page Content -->
-    {% if user_id != None %}
+    {% if user_id != None and user_id > 1 %}
     <div class="container">
       <h1>List Prediksi Produk:</h1>
       <div class = "list-group">
-        {% for produk in data_prediksi %}
-        <a href="#" class="list-group-item">{{ produk }}</a>
+        {% for produk in prediksi %}
+        <a href="#" class="list-group-item">{{ produk.nama_produk }}  </a>
         {% endfor %}
       </div>
     </div>
     {% endif %}
+  
+    <div id="buyModal" class="modal" tabindex="-1" role="dialog">
+      {% if user_id != None and user_id > 1 %}
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">Nama Produk</div>
+          <div class="modal-body">
+            <li>Harga Produk</li>
+            <li>Kuantitas: <input type="number" value=""></li>
+          </div>
+          <!-- <div class="modal-header">
+            Keranjang Produk
+          </div>
+          <div class="modal-body"> 
+            List produk:
+            <table border="1">
+              <tr>
+                <td>No</td>
+                <td>Nama Produk</td>
+                <td>Kuantitas</td>
+                <td>Harga</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>LG FULL HD IPS LED MONITOR 20" - 20MP48</td>
+                <td>1</td>
+                <td>Rp. 1,250,000 </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Nama Produk</td>
+                <td>
+                  <input type="number" value="">
+                </td>
+                <td>Harga Produk </td>
+              </tr>
+              <tr>
+                <td colspan="3">Harga Total</td>
+                <td>Rp. 1,250,000</td>
+              </tr>
+            </table> -->
+              <!-- <div class="quantity">
+                  Kuantitas: 
+              </div>
+              <div class="next-number-picker-handler-wrap">
+                  <a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-up " data-spm-anchor-id="a2o4j.pdp.0.0">
+                      <span unselectable="unselectable" class="next-number-picker-handler-up-inner" data-spm-anchor-id="a2o4j.pdp.0.i3.4c334ecbNXPW10">
+                          <i class="next-icon next-icon-add next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i5.4c334ecbNXPW10"></i>
+                      </span>
+                  </a>
+                  <a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-down next-number-picker-handler-down-disabled" data-spm-anchor-id="a2o4j.pdp.0.0">
+                      <span unselectable="unselectable" class="next-number-picker-handler-down-inner">
+                          <i class="next-icon next-icon-minus next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i4.4c334ecbNXPW10"></i>
+                      </span>
+                  </a>
+              </div>
+              <div class="next-number-picker-input-wrap">
+                  <span class="next-input next-input-single next-input-medium next-number-picker-input">
+                      <input min="1" max="10" value="1" step="1" autocomplete="off" type="text" height="100%">
+                  </span>
+              </div>
+          </div> -->
+          <div class="modal-footer">
+              <button class="btn btn-primary" type="submit">Buy</button>
+          </div> 
+        </div>
+      </div>  
+        {% elif user_id == None %}
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" >
+              <h5 text>Pemberitahuan</h5>
+            </div>
+            <div class="modal-body">
+            </div>
+              <li>Silahkan login dahulu sebelum membeli produk</li>
+              <li>Apabila belum punya akun, silahkan klik tombol Sign Up dibawah</li>
+            <div class="modal-button">
+              <a href="{% url 'account_login' %}">
+                <button class="btn btn-primary" type="submit"> Login </button>
+              </a>
+              <a href="{% url 'account_signup' %}">
+                <button class="btn btn-primary" type="submit"> Sign Up </button>
+              </a>  
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
       
-    <div class="container pt-5">
+    </div>
+    
+    <div class="container">
+        <div class="row" style="margin-top: 6%">
+            <button class="btn btn-info pull-right">
+                {% with totail_items=cart|length %}
+                    {% if cart|length > 0 %}
+                        My Shopping Order:
+                        <a href="{% url 'cart:cart_detail' %}" style="color: #ffffff">
+                            {{ totail_items }} item {{ totail_items|pluralize }}, Rp. {{ cart.get_total_price }}
+                        </a>
+                        {% else %}
+                        Your cart is empty.
+                    {% endif %}
+                {% endwith %}
+            </button>
+        </div>
+    </div>
+
+      <div class="container">
+        
       {% block body %}
       <div class="row">
 
@@ -115,7 +226,7 @@
         </div>
         <!-- /.col-lg-3 -->
         <div class="col-lg-9">
-
+          
           <!-- <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
             <ol class="carousel-indicators">
               <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -147,7 +258,11 @@
               {% for produk in data_produk %}
               <div class="col-lg-4 col-md-6 mb-4" >
                   <div class="card h-100">
+                  {% if produk.foto_produk != None %}
                   <a href="#"><img class="card-img-top" style="height: 200px" src=" {% static 'media/' %}{{ produk.foto_produk }}" alt=""></a>
+                  {% else %}
+                  <a href="#"><img class="card-img-top" style="height: 200px" src="http://placehold.it/750x450" alt=""></a>
+                  {% endif %}
                   <div class="card-body">
                       <form method="get">
                       <h6 class="card-title">
@@ -234,5 +349,11 @@
 
 
   </body>
-
+  <script>
+    $(document).on("click", ".open-paymentButton", function () {
+      var idProduk = $(this).data('id');
+      $(".modal-header #produkID").val( idProduk );
+      $('#buyModal').modal('show');
+    });
+  </script>
 </html>

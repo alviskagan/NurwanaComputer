@@ -3,11 +3,27 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.deconstruct import deconstructible
 from django.contrib.auth.models import User
+from django.urls import reverse
+
 # Create your models here.
 class Kategori (models.Model):
     id_kategori 	= models.AutoField(primary_key= True)
+    # slug = models.SlugField(max_length=150, unique=True ,db_index=True)
     nama_kategori 	= models.CharField(max_length= 250)
-    synset          = models.CharField(max_length=255, null =True)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('nama_kategori', )
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
+    def __str__(self):
+        return self.nama_kategori
+
+    # def get_absolute_url(self):
+    #     return reverse('produk:produk_list_by_category', args=[self.slug])
+
     def __str__(self):
         return self.nama_kategori
 
@@ -21,7 +37,16 @@ class Produk(models.Model):
         related_name= 'kategori',
         unique 		= False
     )
-    stok_produk 	= models.IntegerField()
+    stok_produk 	= models.IntegerField()    
+
+    # def stok_choice(request):
+    #     jumlah = 
+    #     PRODUCT_QUANTITY_CHOICES =  [(i, str(i)) for i in range(1, jumlah)]
+    #     # print(PRODUCT_QUANTITY_CHOICES)
+    #     return PRODUCT_QUANTITY_CHOICES
+    # print(stok_choice)
+    # list_stok_choice = models.CharField(choices=stok_choice())
+    # print(list_stok_choice)
     harga_produk 	= models.IntegerField()
     
     rating_produk 	= models.IntegerField() 
@@ -34,8 +59,16 @@ class Produk(models.Model):
         
     foto_produk 	= models.FileField(upload_to= content_file_name ,null = True, blank = True)
 
+    class Meta:
+        ordering = ('nama_produk', )
+        index_together = (('id_produk', 'kategori_produk'),)
+
     def __str__(self):
         return self.nama_produk
+
+    def get_absolute_url(self):
+        return reverse('produk:produk_detail', args=[self.id_produk, self.kategori_produk])
+
 
 class Rating(models.Model):
     id_rating       = models.AutoField(primary_key= True)

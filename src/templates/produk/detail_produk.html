@@ -32,6 +32,14 @@
 										Tersedia :  {{ produk.stok_produk }} stok barang
 									</h7>
 								</div>
+								<div class="quantity">
+										<form action="{% url "cart:cart_add" product_id=produk.id_produk %}" method="post">
+												{% csrf_token %}
+												{{ cart_product_form }}
+												<input type="number" value="quantity">
+												<input type="submit" value="add to cart" class="btn btn-primary">
+										</form>
+									</div>
 								<br>
 								<!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p> -->
 								<!-- <div class="quantity">
