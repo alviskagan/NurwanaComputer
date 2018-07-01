@@ -10,9 +10,14 @@
       <div class="card-header">Login</div>
 			{% get_providers as socialaccount_providers %}
       <div class="card-body">
-				<div class="alert alert-danger" role="alert">
-					The username and/or password you specified are not correct.
-				</div>
+					{% if messages %}
+						<ul class="messages">
+							{% for message in messages %}
+								<li class="{{ message.tags }}">{{ message }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+
         <form class="login" method="POST" action="{% url 'account_login' %}" >
 					{% csrf_token %}
           <div class="form-group">

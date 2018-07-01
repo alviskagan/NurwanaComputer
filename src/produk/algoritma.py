@@ -284,15 +284,15 @@ def getPrediksi(id_user):
         hasil = []
         #id produk yang pernah dibeli
         produk_terbeli = getListRating(id_user)
-        
         for produk_a in getListProduk(): 
             nilai_prediksi = getValuePrediksi(id_user, produk_a)
             # memfilter agar produk yang pernah terbeli tidak dimunculkan pada rekomendasi
             if produk_a != produk_terbeli:
                 hasil += [[nilai_prediksi, produk_a]]
 
-        hasil.sort( key = lambda x: float(x[0]),  reverse = True)      
-        return hasil[:5]
+        hasil.sort( key = lambda x: float(x[0]),  reverse = True)
+        print(hasil)      
+        return hasil
 # print("ins")
 # print(getPrediksi(5))
 # print("bud")

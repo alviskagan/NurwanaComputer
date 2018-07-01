@@ -1,0 +1,16 @@
+{% extends "index.html "%}
+
+{% block body %}
+{% load staticfiles %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+Silahkan tekan tombol dibawah ini untuk melanjutkan proses pembelian.
+<p class="text-right">
+  <a href="/" class="btn btn-default">Continue Shopping</a>
+</p>
+{% endblock %}	

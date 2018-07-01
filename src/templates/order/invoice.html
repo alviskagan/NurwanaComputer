@@ -1,0 +1,101 @@
+{% extends "index.html "%}
+
+{% block body %}
+{% load staticfiles %}
+<div class="row">
+	{% for data in data_order %}
+	<div class="col-md-12">
+		<div class="card mb-4">
+			<div class="card-header">
+				Detail Barang <span class="float-right">Tanggal : 6 Juni 2018</span>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-md-4">
+								<label>PENGIRIM</label>
+								<p class="small"><strong>Nurwana Computer</strong><br>Jl. Perjuangan No.6 Blok A3<br>Sleman, Yogyakarta<br>Phone : 0838 - 8484 - 9393<br>Email : nurwana@gmail.com</p>
+							</div>
+							<div class="col-md-4">
+								<label>PENERIMA</label>
+								<p class="small"><strong>{{ data.first_name }} {{ data.last_name }}</strong><br>{{ data.address}}<br>{{ data.email }}</p>
+							</div>
+							<div class="col-md-4">
+								<label>INVOICE</label>
+								<p class="small"><strong>Order ID: </strong>{{ data.id }}<br>
+							</div>
+						</div>
+						<hr>
+					
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="table-responsive">
+									<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+										<thead>
+											<tr>
+												<th>Nama Barang</th>
+												<th>Jenis</th>
+												<th>Harga</th>
+												<th>Jumlah</th>
+											</tr>
+										</thead>
+										{% for produk in data_produk %}
+										<tbody>
+											<tr>
+												<td>{{ produk.product }}</td>
+												<td>{{ produk.product.kategori_produk }}</td>
+												<td>Rp {{ produk.price }}</td>
+												<td>{{ produk.quantity}}</td>
+											</tr>
+										</tbody>										
+										{% endfor %}
+										<tfoot>
+											<tr>
+												<th colspan="2">Total</th>
+												<th colspan="2">Rp. {{ data.get_total_cost}}</th>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label>PEMBAYARAN</label>
+								<div class="card "><div class="card-body bg-light">Pembayaran melalui no.rek 938374827272 BANK BRI a.n. YAYASAN NURWANA COMPUTER.</div></div>
+							</div>
+							<div class="col-md-6">
+								<form action="{% url "order:upload_bukti" data.id %}"  enctype="multipart/form-data" method="post">
+										{% csrf_token %}
+										<p>
+											<input id="id_image" type="file" class="" name="image">
+										</p>
+										<input type="submit" value="Bayar" class="btn btn-primary">			
+									</form>
+								<!-- <a class="btn btn-success d-block text-white">BAYAR</a> -->
+							</div>
+						</div>
+						<div class="next-number-picker-handler-wrap">
+							<a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-up " data-spm-anchor-id="a2o4j.pdp.0.0">
+								<span unselectable="unselectable" class="next-number-picker-handler-up-inner" data-spm-anchor-id="a2o4j.pdp.0.i3.4c334ecbNXPW10">
+									<i class="next-icon next-icon-add next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i5.4c334ecbNXPW10"></i>
+								</span>
+							</a>
+							<a unselectable="unselectable" class="next-number-picker-handler next-number-picker-handler-down next-number-picker-handler-down-disabled" data-spm-anchor-id="a2o4j.pdp.0.0">
+								<span unselectable="unselectable" class="next-number-picker-handler-down-inner">
+									<i class="next-icon next-icon-minus next-icon-medium" data-spm-anchor-id="a2o4j.pdp.0.i4.4c334ecbNXPW10"></i>
+								</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+
+{% endblock %}	

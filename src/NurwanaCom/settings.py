@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_extensions',
     # 'django.contrib.sites.models.Site'
     'produk',
     'profile',
     'cart',
+    'order',
 
     'allauth',
     'allauth.account',
@@ -152,7 +154,7 @@ EMAIL_HOST_PASSWORD = 'nurwana99'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
@@ -174,3 +176,9 @@ if DEBUG:
     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),'/Nurwana Computer/src/static/')
 
 CART_SESSION_ID = 'cart'
+
+USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = '.'
+NUMBER_GROUPING = 3
+DECIMAL_SEPARATOR = ','
+
