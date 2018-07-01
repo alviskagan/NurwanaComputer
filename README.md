@@ -1,8 +1,8 @@
 # NurwanaComputer
 
-Yang kurang:
--Tampilan Signout
--Show product berdasarkan kategori
--History order
--Order yg belum terbayar(belum upload bukti transfer)
--Tampilan Profile
+Yang kurang:<br>
+-Tampilan Signout <br>
+-Show product berdasarkan kategori<br>
+-History order<br>
+-Order yg belum terbayar(belum upload bukti transfer)<br>
+-Tampilan Profile<br>
