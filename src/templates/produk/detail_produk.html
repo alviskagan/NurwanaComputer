@@ -16,11 +16,11 @@
 							<div class="col-md-8">
 								<h4 class="card-title">{{ produk.nama_produk }} </h4>
 								<div class="card-text">
-									<i style="color: #f7d120" class="fa fa-star"></i>
-									<i style="color: #f7d120" class="fa fa-star"></i>
-									<i style="color: #f7d120" class="fa fa-star"></i>
-									<i style="color: #f7d120" class="fa fa-star"></i>
-									<i style="color: #f7d120" class="fa fa-star"></i>
+										{% if produk.rating_produk != "" %}
+										Rating: {{ produk.rating_produk}}
+										{% else %}
+										Rating: 0
+										{% endif %}
 								</div>
 								<div class="dropdown-divider"></div>
 								<h5 class="float-right">
@@ -35,11 +35,17 @@
 								<div class="quantity">
 										<form action="{% url "cart:cart_add" product_id=produk.id_produk %}" method="post">
 												{% csrf_token %}
-												{{ cart_product_form }}
-												<input type="number" value="quantity">
-												<input type="submit" value="add to cart" class="btn btn-primary">
-										</form>
-									</div>
+												{{ cart_product_form }} <br>
+												<input type="submit" value="add to cart" class="btn btn-primary">				
+												{% if messages %}
+												<ul class="messages">
+													{% for message in messages %}
+														<li class="{{ message.tags }}">{{ message }}</li>
+													{% endfor %}
+												</ul>
+											{% endif %}
+											</form>
+								</div>
 								<br>
 								<!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p> -->
 								<!-- <div class="quantity">
@@ -63,14 +69,14 @@
 									</span>
 								</div> -->
 								<!-- <div class="col-md-12"> -->
-								<div class="row">
+								<!-- <div class="row">
 									<div class="col-md-6">
 										<a data-toggle="modal" data-target="#konfirmasi" class="btn btn-success btn-block text-white">Beli Sekarang</a>
 									</div>
 									<div class="col-md-6">
 										<a href="{% url 'keranjang' %}" class="btn btn-light btn-block"><i class="fa fa-shopping-cart text-success"></i> Masukkan ke Keranjang</a>
 									</div>
-								</div>
+								</div> -->
 								<!-- </div> -->
 								
 								<!-- Beli Modal-->
@@ -100,7 +106,7 @@
 					</div>
 				</div>
 			</div>
-			{% endfor %}
+			<!-- {% endfor %}
 		<div class="col-md-12">
 			<div class="card card-outline-secondary my-4">
 				<div class="card-header">
@@ -113,7 +119,7 @@
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
 					<small class="text-muted">Posted by Anonymous on 3/1/17</small>
 					<hr>
-					<!-- Comments Form -->
+					Comments Form
           <div class="card my-4">
             <h5 class="card-header">Leave a Reviews:</h5>
             <div class="card-body">
@@ -127,7 +133,7 @@
           </div>
 					</div>
 				</div>
-				<!-- /.card -->
+				
 			</div>
 		</div>
 	</div>
@@ -184,7 +190,7 @@
 			<!-- /.card -->
 		</div>
 	</div>
-</div>
+</div> -->
 
 
 {% endblock %}	

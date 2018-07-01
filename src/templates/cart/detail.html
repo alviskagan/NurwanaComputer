@@ -1,10 +1,10 @@
 {% extends 'index.html' %}
-{% load static %}
- 
+{% load staticfiles  %}
+{% load humanize %} 
 {% block body %}
     <div class="container">
         <div class="row" style="margin-top: 6%">    
-            <span class="badge pull-right">
+            <div class="col-md-8">
                 {% with totail_items=cart|length %}
                     {% if cart|length > 0 %}
                         <h2>My Shopping Order:</h2>
@@ -15,7 +15,7 @@
                         Your cart is empty.
                     {% endif %}
                 {% endwith %}
-            </span>
+            </div>
         </h2>
             <table class="table table-striped table-hover">
                 <thead style="background-color: #5AC8FA">
@@ -65,7 +65,7 @@
             </table>
             <p class="text-right">
                 <a href="/" class="btn btn-default">Continue Shopping</a>
-                <a href="" class="btn btn-primary">Checkout</a>
+                <a href="{% url "order:order_form"  %}" class="btn btn-primary">Checkout</a>
             </p>
         </div>
     </div>

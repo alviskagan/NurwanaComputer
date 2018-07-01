@@ -2,7 +2,7 @@ import locale, sys
 from django.shortcuts import render, get_object_or_404
 from .models import Produk, Kategori,Rating
 from .algoritma import getPrediksi
-from cart.forms import CartAddProductForm, stok
+from cart.forms import CartAddProductForm
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -13,23 +13,30 @@ def index(request):
     # print(getSimilarity(user_id))
     daftar_prediksi = []
     nilai_prediksi = []
-    
+    temp_kategori = None
+    count = 0
     if user_id != None and user_id > 1:
         list_prediksi = getPrediksi(user_id)
         for id_produk in list_prediksi:
             # print(id_produk[1])
             produk = id_produk[1]
             nilai_prediksi = id_produk[0]
-            daftar_prediksi += Produk.objects.all().filter(id_produk__exact = produk).select_related('kategori_produk')  
-        
+            produk_kategori = Produk.objects.get(id_produk__exact = produk).kategori_produk
+            stok = Produk.objects.get(id_produk__exact = produk).stok_produk
+            # print(produk_kategori)
+            if temp_kategori != produk_kategori and count < 5 and stok > 0:
+                daftar_prediksi += Produk.objects.all().filter(id_produk__exact = produk).select_related('kategori_produk')  
+                temp_kategori = produk_kategori
+                count += 1
+
     else:
         list_prediksi = None
     # print(user_id)
     print(daftar_prediksi)
     
     #select_related digunakan untuk memanggil foreign key
-    all_produks		= Produk.objects.all().select_related('kategori_produk').order_by('kategori_produk')
-    # print(all_produks)
+    all_produks		= Produk.objects.all().select_related('kategori_produk').order_by('kategori_produk').filter(stok_produk__gt = 0)
+    # print(Produk.objects.get(id_produk__exact = 65).foto_produk, "AAA")
     # print(daftar_prediksi)
     all_kategori 	= Kategori.objects.all()
 
@@ -44,22 +51,10 @@ def index(request):
     return render(request, 'index.html',produk)
 
 def detail_produk(request, id):
-
-    #pashing data dari views index
-    # if request.method == 'GET':
-    # # blom fix
-    # data_produk = request.GET.get("id_produk", "")
     all_produks = Produk.objects.filter(id_produk__exact = id ).select_related('kategori_produk')
-    print(all_produks)
     stok = Produk.objects.get(id_produk__exact = id).stok_produk
-    print(stok)
     all_kategori = Kategori.objects.all()
-    # print(all_produks)
-    # print(id)
-    # stok(id)
-    # print(Kategori.objects.filter(id_kategori = 1))
     cart_product_form = CartAddProductForm()
-    print(cart_product_form)
     produk = {
         "data_produk": all_produks,
         'cart_product_form': cart_product_form,
@@ -69,27 +64,12 @@ def detail_produk(request, id):
     return render(request, 'produk/detail_produk.html', produk)
 
 
-# def product_detail(request, id):
-#     product = get_object_or_404(Product, id=id, available=True)
-#     cart_product_form = CartAddProductForm()
-#     context = {
-#         'product': product,
-#         'cart_product_form': cart_product_form
-#     }
-#     return render(request, 'shop/product/detail.html', context)
-
 
 def beli_produk(request, id):
 
-    #pashing data dari views index
-    # if request.method == 'GET':
-    # # blom fix
-    # data_produk = request.GET.get("id_produk", "")
+
     all_produks = Produk.objects.filter(id_produk__exact = id ).select_related('kategori_produk')
     all_kategori = Kategori.objects.all()
-    print(all_produks)
-    print(id)
-    # print(Kategori.objects.filter(id_kategori = 1))
     produk = {
         "data_produk": all_produks,
         "kategori_produk": all_kategori

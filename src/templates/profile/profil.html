@@ -7,11 +7,11 @@
 		<div class="col-md-3">
 			<div class="card">
 				<div class="card-body">
-					<img class="img-responsive img-fluid" src="{% static 'media/foto/1_Monitor_SAMSUNG_Monitor_LED_22_22F390_CURVED.png' %}">
+					<img class="img-responsive img-fluid" src="{% static 'media/profile/default.png' %}">
 					<hr>
-					{{ data.username }}
+					{{ data.user.username }}
 					<hr>
-					{{ data.email }}
+					{{ data.user.email }}
 				</div>
 			</div>
 		</div>
@@ -26,34 +26,38 @@
 							<div class="form-row">
 								<div class="col-md-6">
 									<label for="nama">Username: </label>
-									{{ data.username }}
+									{{ data.user }}
 								</div>
 								<div class="col-md-6">
 									<label for="email">Email: </label>
-									{{ data.email }}
+									{{ data.user.email }}
 								</div>
 								<div class="col-md-6">
 									<label for="nama_depan">Nama Depan: </label>
-									{{ data.first_name }}
+									{{ data.user.first_name }}
 								</div>
 								<div class="col-md-6">
 									<label for="email">Nama Belakang: </label>
-									{{ data.last_name }}
+									{{ data.user.last_name }}
 								</div>
 								<div class="col-md-6">
 									<label for="email">Alamat: </label>
-									alamat
+									{{ data.address }}
+								</div>
+								<div class="col-md-6">
+									<label for="email">Bio: </label>
+									{{ data.bio }}
 								</div>
 								<div class="col-md-6">
 									<label for="email">No.HP: </label>
-									+62
+									{{ data.phone_number }}
 								</div>
 							</div>
 						</div>
 				</div>
 			</div>
 			<div class="col-md-9">
-					<a id="paymentButton" class="btn btn-success btn-block" role="button">
+					<a href="{% url 'edit_profile' %}" class="btn btn-success btn-block" role="button">
 						Edit	
 					</a>
 			</div>
@@ -96,6 +100,11 @@
 				</div>
 				
 			</div> -->
+</div>
+<div class="row">
+	<div class="col-md-9">
+		
+	</div>
 </div>
 {% endfor %}
 {% endblock %}	

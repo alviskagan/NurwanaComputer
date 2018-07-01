@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
 from produk.models import Produk
-
+from django.http import HttpResponse
 
 class Cart(object):
     def __init__(self, request):
@@ -13,13 +13,27 @@ class Cart(object):
 
     def add(self, product, quantity=1, update_quantity=False):
         product_id = str(product.id_produk)
+        stok = Produk.objects.get(id_produk__exact = product_id).stok_produk
+        print(stok)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0, 'price': str(product.harga_produk)}
+            # self.save()x   
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
+            # self.save()
         else:
             self.cart[product_id]['quantity'] += quantity
-        self.save()
+            # self.save()
+        
+            # self.cart[product_id]['quantity'] = stok
+        if self.cart[product_id]['quantity'] <= stok:
+            self.save()     
+          
+        # elif self.cart[product_id]['quantity'] > stok:
+            # return  HttpResponse("Kuantitas yang dipilih melebihi stok yang ada")
+            # return  HttpResponse("Text only, please.", content_type="text/plain")
+            # response = HttpResponse("Kuantitas yang dipilih melebihi stok yang ada")
+            # raise forms.ValidationError("Kuantitas yang dipilih melebihi stok yang ada")
 
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart

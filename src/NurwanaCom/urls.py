@@ -24,16 +24,20 @@ from django.views.static import serve
 from django.contrib.admin import sites
 from django.contrib.auth import views as auth_views
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("produk.urls")),
     path('accounts/', include('allauth.urls')),
     path('cart', include('cart.urls')),
+    path('order', include('order.urls')),
     # path('profile/',include("pelanggan.urls")),
     path('admin/logout/', auth_views.LogoutView.as_view(template_name='registration/logged_out.html'), name="logout"),
     path('profile/', include("profile.urls")),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 
+
 
 if settings.DEBUG:
     urlpatterns += [

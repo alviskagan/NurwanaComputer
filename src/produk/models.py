@@ -5,6 +5,9 @@ from django.utils.deconstruct import deconstructible
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+
+# from order.models import OrderItem
+
 # Create your models here.
 class Kategori (models.Model):
     id_kategori 	= models.AutoField(primary_key= True)
@@ -38,18 +41,9 @@ class Produk(models.Model):
         unique 		= False
     )
     stok_produk 	= models.IntegerField()    
-
-    # def stok_choice(request):
-    #     jumlah = 
-    #     PRODUCT_QUANTITY_CHOICES =  [(i, str(i)) for i in range(1, jumlah)]
-    #     # print(PRODUCT_QUANTITY_CHOICES)
-    #     return PRODUCT_QUANTITY_CHOICES
-    # print(stok_choice)
-    # list_stok_choice = models.CharField(choices=stok_choice())
-    # print(list_stok_choice)
     harga_produk 	= models.IntegerField()
     
-    rating_produk 	= models.IntegerField() 
+    rating_produk 	= models.IntegerField(default = 0) 
     deskripsi       = models.TextField(max_length=255, blank=True)
     #Untuk mengubah nama file yang diupload lalu disimpan ke dalam folder foto 
     def content_file_name(instance, filename):
@@ -68,6 +62,10 @@ class Produk(models.Model):
 
     def get_absolute_url(self):
         return reverse('produk:produk_detail', args=[self.id_produk, self.kategori_produk])
+    
+    # def update_stok(self):
+    #     order_items.quantity
+
 
 
 class Rating(models.Model):

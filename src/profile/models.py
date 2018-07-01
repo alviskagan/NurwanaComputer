@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from allauth.account.signals import user_signed_up
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+import os
 # Create your models here.
 class Customer(models.Model):
     '''
@@ -16,7 +16,11 @@ class Customer(models.Model):
     phone_number = models.CharField(max_length = 250, default = "-")
     bio = models.TextField(max_length=250, default = "-")
     birth_date = models.DateField(null=True,  default = "-")
-
+    def content_file_name(instance, filename):
+        ext 		= filename.split('.')[-1]
+        filename 	= "%s.%s" % (instance.user, ext)
+        return os.path.join('profile', filename)   
+    profile_pic 	= models.FileField(upload_to= content_file_name ,null = True, blank = True)
 
 # @receiver(post_save, sender=User)
 # def create_user_profile(sender, instance, created, **kwargs):
