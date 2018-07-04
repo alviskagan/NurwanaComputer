@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',     
 ]
 
-AUTH_PROFILE_MODULE = 'profile.Customer'   
+AUTH_PROFILE_MODULE = 'profile.Pelanggan'   
 
 SITE_ID = 2
 
@@ -115,7 +115,7 @@ SOCIALACCOUNT_PROVIDERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db_user_kosong.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db_produk_65.sqlite3'),
     }
 }
 
@@ -147,7 +147,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = 'nurwanacomputer99@gmail.com'
-EMAIL_HOST_PASSWORD = 'nurwana99'
+EMAIL_HOST_PASSWORD = 'Nurwana99'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/

@@ -18,8 +18,8 @@ class Kategori (models.Model):
 
     class Meta:
         ordering = ('nama_kategori', )
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
+        verbose_name = 'kategori'
+        verbose_name_plural = 'kategoris'
 
     def __str__(self):
         return self.nama_kategori

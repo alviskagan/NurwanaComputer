@@ -1,0 +1,81 @@
+{% extends "index.html "%}
+
+{% block body %}
+{% load staticfiles %}
+
+<div class="row">
+    <div class="col-lg-3">
+        <h1 class="my-4" style="font-size: 40px">Nurwana Computer</h1>
+        <div class="list-group">
+        {% for produk in kategori_produk %}
+        <a href="{% url 'kategori_produk' produk.id_kategori %}" class="list-group-item">{{ produk.nama_kategori }}</a>
+        {% endfor %}
+        </div>
+
+    </div>
+    <!-- /.col-lg-3 -->
+    <div class="col-lg-9">
+        <div class="row">
+                
+            {% for produk in data_produk %}
+            <div class="col-lg-4 col-md-6 mb-4" >
+                <div class="card h-100">
+                {% if produk.foto_produk != "" %}
+                <a href="#"><img class="card-img-top" style="height: 200px" src=" {% static 'media/' %}{{ produk.foto_produk }}" alt=""></a>
+                {% else %}
+                <a href="#"><img class="card-img-top" style="height: 200px" src="http://placehold.it/750x450" alt=""></a>
+                {% endif %}
+                <div class="card-body">
+                    <form method="get">
+                    <h6 class="card-title">
+                    <!-- detail -->
+                    <a href="{% url 'detail_produk' produk.id_produk %}" >{{ produk.nama_produk }}</a>
+                    </h6>
+                    </form>
+                                        <div>
+                    {% if produk.rating_produk != "" %}
+                    Rating: {{ produk.rating_produk}}
+                    {% else %}
+                    Rating: 0
+                    {% endif %}
+                                        </div>
+                                        <div class="dropdown-divider"></div>
+                    <h6 class="float-right"><span class="badge badge-secondary px-2">
+                                        {{ produk.kategori_produk.nama_kategori }}</span>
+                                        </h6>
+                    <h6>{% load humanize %}
+                        Rp. {{ produk.harga_produk|intcomma}}
+                    </h6>
+                    <span style="width: 100%" class="small">
+                                        Tersedia :  {{ produk.stok_produk }} stok barang
+                                    </span>
+                </div>
+                <div class="card-footer">
+            <div class="row">
+                <div class="button" style="width: 100%">			
+                <a id="paymentButton" data-id="{{produk.harga_produk}}" href="{% url 'detail_produk' produk.id_produk %}" class="paymentButton btn btn-success btn-block" role="button">
+                    Beli Sekarang
+                </a>
+                </div>
+                <!-- <div class="col-md-3">
+                                <a class="btn btn-light border">
+                                <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            </div> -->
+                        </div>
+                </div>
+                </div>
+            </div>
+            {% endfor %} 
+        
+    
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+{% endblock %}	

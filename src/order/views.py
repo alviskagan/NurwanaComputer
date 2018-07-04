@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import OrderItem, Order
 from .forms import OrderCreateForm, UploadBuktiTransfer, RatingForm
 from cart.cart import Cart
-from profile.models import Customer
+from profile.models import Pelanggan
 from produk.models import Produk, Rating
 from django.contrib.auth.models import User
 
@@ -17,7 +17,7 @@ from django.db import connection
 import numpy as np
 import pandas as pd
 
-@verified_email_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/')
 def order_create(request, no_order = 0):
     cart = Cart(request)
     user_id = request.user.id
@@ -72,7 +72,7 @@ def order_create(request, no_order = 0):
         # return render(request, 'message.html')
         return redirect('order:order_create')
 
-@verified_email_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/')
 def upload_bukti(request, no_order):
     cart = Cart(request)
     order = Order.objects.get(id__exact = no_order)
@@ -129,7 +129,7 @@ def upload_bukti(request, no_order):
     return render(request, 'order/invoice.html', produk)
     # return render(request, 'message.html')
 
-@verified_email_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/')
 def order_form(request):
     cart = Cart(request)
     if request.method == 'POST':
@@ -177,6 +177,61 @@ def order_form(request):
     else:
         form = OrderCreateForm()
         return render(request, 'order/create.html', {'form': form})
+
+# @login_required(login_url='/accounts/login/')
+# def order_pelanggan(request):
+#     user_id = request.user.id
+#     user_fn		= User.objects.get(id__exact = user_id).first_name
+#     user_ln		= User.objects.get(id__exact = user_id).last_name
+#     user_em		= User.objects.get(id__exact = user_id).email
+#     print(Pelanggan.objects.filter(user__exact = request.user))
+#     cursor = connection.cursor()
+#     print(cursor.execute("select * from profile_pelanggan where user_id = "+str(user_id)+""))
+#     if Pelanggan.objects.filter(user__exact = request.user) != "<QuerySet []>" :
+#         print("aaa")
+#         user_add    = Pelanggan.objects.get(user__exact = request.user).address
+#         user_pc     = Pelanggan.objects.get(user__exact = request.user).postal_code
+#         print(user_add)
+#         cart = Cart(request)
+#         form_upload = UploadBuktiTransfer()
+
+#         order = Order.objects.create(
+#             first_name = user_fn,
+#             last_name = user_ln,
+#             email = user_em,
+#             address = user_add,
+#             postal_code = user_pc
+#         )
+#         order = form.save()
+#         order.buyer = request.user
+#         # print(order.save())
+#         for item in cart:
+#             OrderItem.objects.create(
+#                 order=order,
+#                 product=item['product'],
+#                 price=item['price'],
+#                 quantity=item['quantity']
+#         )
+#         order_item = OrderItem.objects.filter(order__exact = order)
+#         order_data = Order.objects.filter(id__exact = order.id)
+#         produk = {
+#             "data_produk": order_item,
+#             "order_id"   : order,
+#             "data_order" : order_data,
+#             "form_upload": form_upload
+#         }
+        
+#         messages.warning(request, 'Cart anda sudah disimpan, silahkan cek riwayat order anda')
+#         return render(request, 'order/invoice.html', produk)
+        
+#     else:
+#         pelanggan = Pelanggan.objects.filter(user__exact = request.user)
+#         profile = {
+#             "data_user" : pelanggan,
+#         }
+#         form = ProfileCreateForm()
+#         return render(request, 'profile/edit_profile.html', {'form': form})
+    
 
 def rating(request, id_produk):
     if request.method == "POST":

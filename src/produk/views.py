@@ -63,6 +63,40 @@ def detail_produk(request, id):
 
     return render(request, 'produk/detail_produk.html', produk)
 
+def kategori_produk(request, id):
+    user_id = request.user.id
+    daftar_prediksi = []
+    nilai_prediksi = []
+    temp_kategori = None
+    count = 0
+    if user_id != None and user_id > 1:
+        list_prediksi = getPrediksi(user_id)
+        for id_produk in list_prediksi:
+            produk = id_produk[1]
+            nilai_prediksi = id_produk[0]
+            produk_kategori = Produk.objects.get(id_produk__exact = produk).kategori_produk
+            stok = Produk.objects.get(id_produk__exact = produk).stok_produk
+            if temp_kategori != produk_kategori and count < 5 and stok > 0:
+                daftar_prediksi += Produk.objects.all().filter(id_produk__exact = produk).select_related('kategori_produk')  
+                temp_kategori = produk_kategori
+                count += 1
+
+    else:
+        list_prediksi = None
+    
+    #select_related digunakan untuk memanggil foreign key
+    all_produks		= Produk.objects.all().select_related('kategori_produk').order_by('kategori_produk').filter(stok_produk__gt = 0).filter(kategori_produk__exact = id)
+    all_kategori 	= Kategori.objects.all()
+
+    produk = {
+        "user_id"           : user_id,
+        "data_produk"		: all_produks,
+        "kategori_produk"	: all_kategori,
+        "data_prediksi"     : list_prediksi,
+        "prediksi"          : daftar_prediksi
+    }
+
+    return render(request, 'produk/kategori_produk.html',produk)
 
 
 def beli_produk(request, id):
