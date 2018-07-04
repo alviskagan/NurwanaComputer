@@ -74,10 +74,10 @@
             </li>
             <li class="">
               <a class="nav-link" href="{% url 'contact' %}">Contact</a>
-            </li>
+            <!-- </li>
 						<li class="">
               <a class="nav-link" href="{% url 'pembelian' %}">Pembelian</a>
-            </li>
+            </li> -->
             {% if user.is_authenticated %}
             <li class="" ><a class="nav-link" href="{% url 'account_logout'%}">Logout</a></li> 
               {%load account%}
@@ -174,7 +174,7 @@
           <h1 class="my-4" style="font-size: 40px">Nurwana Computer</h1>
           <div class="list-group">
             {% for produk in kategori_produk %}
-            <a href="#" class="list-group-item">{{ produk.nama_kategori }}</a>
+            <a href="{% url 'kategori_produk' produk.id_kategori %}" class="list-group-item">{{ produk.nama_kategori }}</a>
             {% endfor %}
           </div>
 

@@ -190,7 +190,9 @@ def jcn_similarity(a,b):
         return 1
     return result_jcn
 
-
+# print(jcn_similarity(1,2))
+# print(jcn_similarity(2,9))
+# print(jcn_similarity(9,21))
 
 def combinedSim(item_1, item_2):
     a = 0.25
@@ -199,6 +201,7 @@ def combinedSim(item_1, item_2):
     # print(cf, jcn)
     result = a*cf + (1-a)*jcn
     return result
+# print(combinedSim())
 
 def getListProduk():
     produk = pd.read_sql_query('SELECT id_produk FROM produk_produk ORDER by id_produk', connection)
@@ -291,10 +294,10 @@ def getPrediksi(id_user):
                 hasil += [[nilai_prediksi, produk_a]]
 
         hasil.sort( key = lambda x: float(x[0]),  reverse = True)
-        print(hasil)      
+        # print(hasil)      
         return hasil
-# print("ins")
-# print(getPrediksi(5))
+# print("alvis")
+# print(getPrediksi(21))
 # print("bud")
 # print(getPrediksi(4))
 # print("cap")

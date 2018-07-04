@@ -2,7 +2,7 @@ import locale
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from .models import Customer
+from .models import Pelanggan
 from .forms import ProfileCreateForm
 from django.contrib import messages
 locale.setlocale(locale.LC_ALL, '')
@@ -11,9 +11,7 @@ locale.setlocale(locale.LC_ALL, '')
 
 def profile(request):
     user_id = request.user
-    print(user_id)
-    pelanggan = Customer.objects.filter(user__exact = user_id)
-    print(pelanggan)
+    pelanggan = Pelanggan.objects.filter(user__exact = user_id)
     form = ProfileCreateForm()
     profile = {
         "data_user" : pelanggan,
@@ -27,7 +25,7 @@ def profile(request):
 def profile_create(request):
     user_id     = request.user.id
     # user     = request.user.username
-    pelanggan = Customer.objects.filter(user__exact = request.user)
+    pelanggan = Pelanggan.objects.filter(user__exact = request.user)
     profile = {
         "data_user" : pelanggan,
     }
@@ -38,7 +36,7 @@ def profile_create(request):
             cd = form.cleaned_data
             print(cd['address'], "address")
             print("aaa")
-            Customer.objects.create(
+            Pelanggan.objects.create(
                 user = request.user,
                 address = cd['address'] ,
                 phone_number = cd['phone_number'] ,

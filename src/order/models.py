@@ -6,12 +6,7 @@ from datetime import datetime, timedelta
 
 
 class Order(models.Model):
-    # pelanggan    = models.ForeignKey(
-    #     User,
-    #     on_delete   = models.CASCADE,
-    #     related_name= 'order_pelanggan'
-    # )
-    buyer = models.ForeignKey(User, on_delete= models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete= models.CASCADE, default = None)
     first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
     email = models.EmailField()
@@ -22,13 +17,7 @@ class Order(models.Model):
     paid = models.BooleanField(default=False)
     bukti_transfer = models.ImageField(upload_to='transfer/%Y/%m/%d', blank=True)
 
-    # def content_file_name(instance, filename):
-    #     ext 		= filename.split('.')[-1]
-    #     filename 	= "%s_%s.%s" % (instance.updated, instance.email, ext)
-    #     return os.path.join('transfer', filename)   
-        
-    # bukti_transfer 	= models.FileField(upload_to= content_file_name ,null = True, blank = True)
-
+    
     class Meta:
         ordering = ('-created', )
 
