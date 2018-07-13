@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% load i18n %}
+{% block body %}
+  <h2>Sign up</h2>
+  <form method="post">
+    {% csrf_token %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {{ error_messages }}
+    <label>Username: {{ form.username }}</label><br>
+    <label>Password: {{ form.password1 }}</label><br>
+    <label>Password Confirmation: {{ form.password2 }}</label><br>
+    <label>Address: {{ form_2.address }}</label><br>
+    <label>Phone Number: {{ form_2.phone_number }}</label><br>
+    <label>Postal Code: {{ form_2.postal_code }}</label><br>
+    <button type="submit">Sign up</button>
+  </form>
+
+
+{% endblock %}

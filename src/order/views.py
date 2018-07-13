@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib import messages
+from datetime import datetime
 # from django.core.files.storage import FileSystemStorage
 from django.db import connection
 import numpy as np
@@ -72,8 +73,11 @@ def order_create(request, no_order = 0):
         # return render(request, 'message.html')
         return redirect('order:order_create')
 
+global order_id
+
 @login_required(login_url='/accounts/login/')
 def upload_bukti(request, no_order):
+    global order
     cart = Cart(request)
     order = Order.objects.get(id__exact = no_order)
     if request.method == 'POST':
@@ -82,37 +86,38 @@ def upload_bukti(request, no_order):
             image = request.FILES['image']
             cursor = connection.cursor()
             # Update stok
-            produk = pd.read_sql_query("select product_id, quantity from order_orderitem where order_orderitem.order_id = "+str(no_order)+"", connection)
+            produk = pd.read_sql_query("select product_id, quantity from order_orderitem where order_orderitem.order_id = "
+                +str(no_order)+"", connection)
             for line in produk.itertuples():
                 stok = Produk.objects.get(id_produk__exact = line[1]).stok_produk
                 new_stok = stok - line[2]
-                cursor.execute("update produk_produk set stok_produk = "+str(new_stok)+" where produk_produk.id_produk = "+str(line[1])+ "")
+                cursor.execute("update produk_produk set stok_produk = "
+                    +str(new_stok)+" where produk_produk.id_produk = "+str(line[1])+ "")
                 print(line[1], line[2], stok)
-            
             # Validasi Apakah product_id pada OrderItem sudah pernah dirating atau belum? 
-            # rating = pd.read_sql_query("select order_orderitem.product_id from order_orderitem, produk_rating where order_orderitem.order_id = "+str(no_order)+" and produk_rating.id_pelanggan_id = "+str(request.user.id)+" and produk_rating.id_produk_id = order_orderitem.product_id and produk_rating.is_rating = 0", connection)
-            # produk_id = pd.read_sql_query("select product_id from order_orderitem where order_orderitem.order_id = "+str(no_order)+"", connection)
-        
-            produk_id = pd.read_sql_query("select distinct order_orderitem.product_id from order_orderitem ,order_order where order_orderitem.order_id = order_order.id  and order_order.buyer_id = "+str(request.user.id)+" and order_orderitem.product_id not in (select produk_rating.id_produk_id from produk_rating where produk_rating.id_pelanggan_id = "+str(request.user.id)+")", connection)
+            produk_id = pd.read_sql_query("select distinct order_orderitem.product_id from order_orderitem "
+                +",order_order where order_orderitem.order_id = order_order.id  and order_order.buyer_id = "
+                +str(request.user.id)+" and order_orderitem.product_id not in "
+                +"(select produk_rating.id_produk_id from produk_rating where produk_rating.id_pelanggan_id = "
+                +str(request.user.id)+")", connection)
             daftar_rating = []
             for line in produk_id.itertuples():
                 id_produk_rating = line[1]
                 daftar_rating += Produk.objects.filter(id_produk__exact = id_produk_rating)
-            
-            # produk_rating = OrderItem.objects.filter(order__exact = no_order)
-            print(daftar_rating)
             order.bukti_transfer = image
             order.save()
             cart.clear()
             form = RatingForm()
             data = {
                 'produk_rating': daftar_rating,
-                'form'         : form
+                'form'         : form,
             }
+            order = ''
             messages.success(request, 'Upload Berhasil!')
             messages.warning(request, 'Silahkan berikan rating pada produk yang sudah pernah anda beli.')
             return render(request, 'produk/rating.html', data)
     else:
+        order = ''
         form = UploadBuktiTransfer()
         messages.warning(request, 'Cart anda sudah disimpan, silahkan cek riwayat order anda')
     
@@ -125,147 +130,85 @@ def upload_bukti(request, no_order):
         "form_upload": form
     }
     
-    messages.warning(request, 'Cart anda sudah disimpan, silahkan cek riwayat order anda')
+    # messages.warning(request, 'Cart anda sudah disimpan, silahkan cek riwayat order anda')
     return render(request, 'order/invoice.html', produk)
-    # return render(request, 'message.html')
 
+order = ''
 @login_required(login_url='/accounts/login/')
 def order_form(request):
     cart = Cart(request)
+    global order
+    # for item in cart:
+    #     order = item['order_id']
+    # order = ''
+    print(order)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid() and cart.session.get(settings.CART_SESSION_ID) != {}:
-            # cd = form.cleaned_data()
+            # print(cart.session.get(settings.CART_SESSION_ID))
             user_id = request.user.id
             form_upload = UploadBuktiTransfer()
-
-            # user_fn		= User.objects.get(id__exact = user_id).first_name
-            # user_ln		= User.objects.get(id__exact = user_id).last_name
-            # user_em		= User.objects.get(id__exact = user_id).email
-            # order = Order.objects.create(
-            #     first_name = cd['first_name'],
-            #     last_name = cd['last_name'],
-            #     email = cd['email'],
-            #     address = cd['address'],
-            #     postal_code = cd['postal_code']
-            # )
-            order = form.save()
-            order.buyer = request.user
-            print(order.save())
-            for item in cart:
-                OrderItem.objects.create(
-                    order=order,
-                    product=item['product'],
-                    price=item['price'],
-                    quantity=item['quantity']
-            )
+            if order == '':
+                order_id = form.save()
+                order_id.buyer = request.user
+                order_id.save()
+                order = order_id
+                                
+                for item in cart:
+                    OrderItem.objects.create(
+                        order=order,
+                        product=item['product'],
+                        price=item['price'],
+                        quantity=item['quantity']
+                    )
+                   
             order_item = OrderItem.objects.filter(order__exact = order)
-            order_data = Order.objects.filter(id__exact = order.id)
+            order_data = Order.objects.filter(id__exact = order.id)       
+            time = datetime.now()
             produk = {
                 "data_produk": order_item,
                 "order_id"   : order,
                 "data_order" : order_data,
-                "form_upload": form_upload
+                "form_upload": form_upload,
+                'time'       : time
             }
             
             messages.warning(request, 'Cart anda sudah disimpan, silahkan cek riwayat order anda')
             return render(request, 'order/invoice.html', produk)
-            
         else:
             form = OrderCreateForm()
             return render(request, 'order/create.html', {'form': form})
     else:
         form = OrderCreateForm()
         return render(request, 'order/create.html', {'form': form})
+# global order_id
 
-# @login_required(login_url='/accounts/login/')
-# def order_pelanggan(request):
-#     user_id = request.user.id
-#     user_fn		= User.objects.get(id__exact = user_id).first_name
-#     user_ln		= User.objects.get(id__exact = user_id).last_name
-#     user_em		= User.objects.get(id__exact = user_id).email
-#     print(Pelanggan.objects.filter(user__exact = request.user))
-#     cursor = connection.cursor()
-#     print(cursor.execute("select * from profile_pelanggan where user_id = "+str(user_id)+""))
-#     if Pelanggan.objects.filter(user__exact = request.user) != "<QuerySet []>" :
-#         print("aaa")
-#         user_add    = Pelanggan.objects.get(user__exact = request.user).address
-#         user_pc     = Pelanggan.objects.get(user__exact = request.user).postal_code
-#         print(user_add)
-#         cart = Cart(request)
-#         form_upload = UploadBuktiTransfer()
-
-#         order = Order.objects.create(
-#             first_name = user_fn,
-#             last_name = user_ln,
-#             email = user_em,
-#             address = user_add,
-#             postal_code = user_pc
-#         )
-#         order = form.save()
-#         order.buyer = request.user
-#         # print(order.save())
-#         for item in cart:
-#             OrderItem.objects.create(
-#                 order=order,
-#                 product=item['product'],
-#                 price=item['price'],
-#                 quantity=item['quantity']
-#         )
-#         order_item = OrderItem.objects.filter(order__exact = order)
-#         order_data = Order.objects.filter(id__exact = order.id)
-#         produk = {
-#             "data_produk": order_item,
-#             "order_id"   : order,
-#             "data_order" : order_data,
-#             "form_upload": form_upload
-#         }
-        
-#         messages.warning(request, 'Cart anda sudah disimpan, silahkan cek riwayat order anda')
-#         return render(request, 'order/invoice.html', produk)
-        
-#     else:
-#         pelanggan = Pelanggan.objects.filter(user__exact = request.user)
-#         profile = {
-#             "data_user" : pelanggan,
-#         }
-#         form = ProfileCreateForm()
-#         return render(request, 'profile/edit_profile.html', {'form': form})
-    
 
 def rating(request, id_produk):
     if request.method == "POST":
         form = RatingForm(request.POST)
-        # print(form)
         if form.is_valid():
-            print(id_produk)
-            # cd = form.cleaned_data()
-            add_rating = Rating.objects.create(
-                id_pelanggan = request.user,
-                id_produk_id = id_produk,
-                is_rating = request.POST.get('rating')
+            add_rating = Rating.objects.create(id_pelanggan = request.user, id_produk_id = id_produk,
+            is_rating = request.POST.get('rating')
             )
             add_rating.save()
-
-            produk_id = pd.read_sql_query("select distinct order_orderitem.product_id from order_orderitem ,order_order where order_orderitem.order_id = order_order.id  and order_order.buyer_id = "+str(request.user.id)+" and order_orderitem.product_id not in (select produk_rating.id_produk_id from produk_rating where produk_rating.id_pelanggan_id = "+str(request.user.id)+")", connection)
+            produk_id = pd.read_sql_query("select distinct order_orderitem.product_id from order_orderitem "
+                +",order_order where order_orderitem.order_id = order_order.id  and order_order.buyer_id = "
+                +str(request.user.id)+" and order_orderitem.product_id not in "
+                +"(select produk_rating.id_produk_id from produk_rating where produk_rating.id_pelanggan_id = "
+                +str(request.user.id)+")", connection)
             daftar_rating = []
             for line in produk_id.itertuples():
                 id_produk_rating = line[1]
                 daftar_rating += Produk.objects.filter(id_produk__exact = id_produk_rating)
-            
-            hasil_rating = pd.read_sql_query("select sum(is_rating)/count(id_rating) as Rating from produk_rating where produk_rating.id_produk_id = "+str(id_produk)+"", connection)
+            hasil_rating = pd.read_sql_query("select sum(is_rating)/count(id_rating) as Rating "
+                +"from produk_rating where produk_rating.id_produk_id = "
+                +str(id_produk)+"", connection)
             for line in hasil_rating.itertuples():
                 produk_rating = Produk.objects.get(id_produk__exact = id_produk)
                 produk_rating.rating_produk = line[1]
                 produk_rating.save()
-                # cursor.execute("update produk_produk set stok_produk = "+str(new_stok)+" where produk_produk.id_produk = "+str(line[1])+ "")
-                
-            # produk = Produk.objects.get(id_produk__exact = id_produk)
-            
-            data = {
-                'produk_rating': daftar_rating,
-                'form'         : form
-            }
+            data = {'produk_rating': daftar_rating,'form': form}
             if daftar_rating != []:
                 messages.warning(request, 'Rating Berhasil')
                 return render(request, 'produk/rating.html', data)

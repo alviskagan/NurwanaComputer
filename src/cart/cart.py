@@ -16,7 +16,7 @@ class Cart(object):
         stok = Produk.objects.get(id_produk__exact = product_id).stok_produk
         print(stok)
         if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': 0, 'price': str(product.harga_produk)}
+            self.cart[product_id] = {'quantity': 0, 'price': str(product.harga_produk), 'order_id': '',}
             # self.save()x   
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
@@ -29,15 +29,14 @@ class Cart(object):
         if self.cart[product_id]['quantity'] <= stok:
             self.save()     
           
-        # elif self.cart[product_id]['quantity'] > stok:
-            # return  HttpResponse("Kuantitas yang dipilih melebihi stok yang ada")
-            # return  HttpResponse("Text only, please.", content_type="text/plain")
-            # response = HttpResponse("Kuantitas yang dipilih melebihi stok yang ada")
-            # raise forms.ValidationError("Kuantitas yang dipilih melebihi stok yang ada")
+    # def order(self, order_id):
+    #     self.cart['order_id'] = order_id
+    #     self.save()
 
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
         self.session.modified = True
+    
 
     def remove(self, product):
         product_id = str(product.id_produk)

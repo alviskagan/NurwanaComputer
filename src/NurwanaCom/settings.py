@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_extensions',
-    # 'django.contrib.sites.models.Site'
     'produk',
     'profile',
     'cart',
@@ -49,8 +48,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
-    # 'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',     
 ]
 
@@ -111,11 +108,11 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
+# Nama database: db_rekomendasi.sqlite3
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db_produk_65.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db_skenario_5_pengguna.sqlite3'),
     }
 }
 

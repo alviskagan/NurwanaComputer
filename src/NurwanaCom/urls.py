@@ -32,7 +32,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('cart', include('cart.urls')),
     path('order', include('order.urls')),
-    # path('profile/',include("pelanggan.urls")),
     path('admin/logout/', auth_views.LogoutView.as_view(template_name='registration/logged_out.html'), name="logout"),
     path('profile/', include("profile.urls")),
 

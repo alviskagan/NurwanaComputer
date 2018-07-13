@@ -2,20 +2,41 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+{% block head_title %}{% trans "Logout" %}{% endblock %}
 
 {% block body %}
-<h1>{% trans "Sign Out" %}</h1>
 
-<p>{% trans 'Are you sure you want to sign out?' %}</p>
 
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <button type="submit">{% trans 'Sign Out' %}</button>
-</form>
+<div class="container mb-5">
+    <div class="row col-md-5 mx-auto">
+      <div class="card card-login ">
+        <div class="card-header"> <h1>{% trans "Logout" %}</h1></div>
+        <div class="card-body">
+           
 
+            <p>{% trans 'Are you sure you want to logout ?' %}</p>  
+          {% if messages %}
+              <ul class="messages">
+                {% for message in messages %}
+                  <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <input type="submit" class="btn btn-primary btn-block" value="Yes"><br>
+                <a href="/"><input type="button" style="background-color: red"  class="btn-primary btn-block" value="No"></a>
+            </form>
+            <!-- <a href="/"><button type="button" class="btn-primary btn-block" value="No"></button></a> -->
+            
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
 
 {% endblock %}
