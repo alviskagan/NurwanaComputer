@@ -8,6 +8,35 @@ from django.contrib import messages
 locale.setlocale(locale.LC_ALL, '')
 
 # Create your views here.
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        form_2 = ProfileCreateForm(request.POST)
+        if form.is_valid() and form_2.is_valid():
+            # user_id = 
+            Pelanggan.objects.create(
+                user = form.save(),
+                phone_number = form_2.cleaned_data['phone_number'],
+                address = form_2.cleaned_data['address'],
+                postal_code =   form_2.cleaned_data['postal_code']
+            )
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserCreationForm()
+        form_2 = ProfileCreateForm()
+        forms = {
+            'form': form,
+            'form_2': form_2
+        }
+    return render(request, 'profile/signup.html', {'form': form,'form_2': form_2} )
 
 def profile(request):
     user_id = request.user
@@ -52,3 +81,5 @@ def profile_create(request):
     else:
         form = ProfileCreateForm()
         return render(request, 'profile/edit_profile.html', {'form': form})
+
+

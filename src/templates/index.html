@@ -89,7 +89,12 @@
         </div>
       </div>
     </nav>
-   
+    {% for data in data_user %}
+      {{ data.first_name }}
+      {{ data.last_name }}
+      {{ data.email}}
+      {{ data.id }}
+    {% endfor %}
     <!-- Page Content -->
     {% if user_id != None and user_id > 1 %}
     <div class="container" style="margin-top: 2%">

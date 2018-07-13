@@ -1,13 +1,14 @@
 {% extends "index.html "%}
+{% load staticfiles %}
+
 
 {% block body %}
-{% load staticfiles %}
 <div class="row">
 	<div class="col-md-8">
 		<div class="row">
 			<div class="col-md-12">
 				{% for produk in data_produk %}
-				<div class="card">
+				<div class="card" style="width: 1070px">
 					<div class="card-body">
 						<div class="row">
 							<div class="col-md-4">
@@ -106,7 +107,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- {% endfor %}
+			{% endfor %}
+			<!-- 
 		<div class="col-md-12">
 			<div class="card card-outline-secondary my-4">
 				<div class="card-header">
@@ -190,7 +192,7 @@
 			<!-- /.card -->
 		</div>
 	</div>
-</div> -->
+</div> 
 
 
 {% endblock %}	

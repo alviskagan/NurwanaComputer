@@ -51,30 +51,34 @@ def rataRatingProduk(id):
             return 0
 
 def getSimilarity(item_1, item_2):
-    query = pd.read_sql_query('SELECT  a.id_pelanggan_id FROM produk_rating a, produk_rating b WHERE a.id_produk_id = ' +str(item_1) +' AND b.id_produk_id = ' + str(item_2) +' AND a.id_pelanggan_id = b.id_pelanggan_id', connection)
+    query = pd.read_sql_query('SELECT  a.id_pelanggan_id FROM produk_rating a, produk_rating b WHERE a.id_produk_id = ' 
+    +str(item_1) +' AND b.id_produk_id = ' 
+    +str(item_2) +' AND a.id_pelanggan_id = b.id_pelanggan_id', connection)
     Atas = Bawah_i = Bawah_j = 0
     n_users = df.id_pelanggan_id.shape[0]
-    # print(n_users)
     
     for line in query.itertuples():
-        # print(line[1])
         rui = getRatingUser(line[1], item_1)
         ruj = getRatingUser(line[1], item_2)
         ru  = rataRatingUser(line[1])
-        # print(rui, ruj, ru)
         atas = (rui-ru) * (ruj-ru)
         bawah_i = pow((rui-ru),2)
         bawah_j = pow((ruj-ru),2)
-        # print(atas, bawah_i, bawah_j)
         Atas = Atas + atas
         Bawah_i = Bawah_i + bawah_i
         Bawah_j = Bawah_j + bawah_j
-    # print(Atas, Bawah_i, Bawah_j)
     Bawah = (math.sqrt(Bawah_i)* math.sqrt(Bawah_j))
     if Bawah == 0:
         Bawah = 1
     hasil = Atas/Bawah
+    # print(hasil)
     return hasil  
+
+# print(getSimilarity(11,1))
+# print(getSimilarity(11,2))
+# print(getSimilarity(11,9))
+# print(getSimilarity(11,21))
+# print(getSimilarity(11,23))
 ### end uji coba ###
 
 ### block algoritma jiang-conrath calculation ###
@@ -183,6 +187,7 @@ def nama_produk(param):
 def jcn_similarity(a,b):
     data_a = corpus_kategori(a)
     data_b = corpus_kategori(b)
+    # print(data_a, data_b)
     if data_a != data_b:
         result_jcn = data_a.jcn_similarity(data_b, semcor_ic_add1)
         return result_jcn
@@ -191,9 +196,11 @@ def jcn_similarity(a,b):
     return result_jcn
 
 # print(jcn_similarity(1,2))
+# print(jcn_similarity(1,2))
 # print(jcn_similarity(2,9))
 # print(jcn_similarity(9,21))
-
+# print(jcn_similarity(21,23))
+# print("AAA")
 def combinedSim(item_1, item_2):
     a = 0.25
     cf = getSimilarity(item_1, item_2)
@@ -201,8 +208,12 @@ def combinedSim(item_1, item_2):
     # print(cf, jcn)
     result = a*cf + (1-a)*jcn
     return result
-# print(combinedSim())
-
+# # print(combinedSim())
+# print(combinedSim(1,1))
+# print(combinedSim(1,2))
+# print(combinedSim(2,9))
+# print(combinedSim(9,21))
+# print(combinedSim(21,23))
 def getListProduk():
     produk = pd.read_sql_query('SELECT id_produk FROM produk_produk ORDER by id_produk', connection)
     id_produk = []
@@ -220,11 +231,11 @@ def getIdProdukTerrating(id_user):
 
 def getValuePrediksi(id_user, id_produk_a):
     produk_a = id_produk_a
-    query_user = pd.read_sql_query('SELECT id_produk_id FROM produk_rating WHERE id_pelanggan_id = ' + str(id_user) + ' AND id_produk_id != ' + str(produk_a) +'', connection)
+    query_user = pd.read_sql_query('SELECT id_produk_id FROM produk_rating WHERE id_pelanggan_id = '+ str(id_user) + ' AND id_produk_id != ' + str(produk_a) +'', connection)
     
     Atas = Bawah = 0
     RataRating_a = rataRatingProduk(produk_a)
-    # print(RataRating_a)
+    # Perhitungan Prediksi Untuk Produk yang Pernah di Rating
     if RataRating_a != 0 :
         for line in query_user.itertuples():
             produk_b = line[1]
@@ -237,19 +248,11 @@ def getValuePrediksi(id_user, id_produk_a):
 
             bawah = abs(combine_ab)
             Bawah = Bawah + bawah
-            
-            
-            # print(produk_a, produk_b )
-            # print(combine_ab)
-
-            # print(bawah)
-            # print(produk_a , produk_b, combine_ab)
-        # print(RataRating_a,Atas, Bawah)
         if Atas != 0 and Bawah != 0:
             result = RataRating_a + (Atas/Bawah)
         else:
             result = RataRating_a
-
+    # Perhitungan Prediksi Untuk Produk yang Belum Pernah di Rating
     elif RataRating_a == 0 :
         for line in query_user.itertuples():
             produk_b = line[1]
@@ -269,9 +272,14 @@ def getValuePrediksi(id_user, id_produk_a):
             result = Atas/Bawah
     
     return result
-
-# print(getValuePrediksi(2,1))
-# print(getValuePrediksi(5,2))
+# print(getValuePrediksi(29,11))
+# print(getValuePrediksi(72,11))
+# print(getValuePrediksi(37,11))
+# print(getValuePrediksi(25,11))
+# print(getValuePrediksi(45,11))
+skenario = pd.read_sql_query('select id_pelanggan_id, id_produk_id from produk_rating', connection)
+# for line in skenario.itertuples():
+#     print(getValuePrediksi(line[1],line[2]))
 
 def getListRating(id_user):
     query = pd.read_sql_query('SELECT id_produk_id FROM produk_rating WHERE id_pelanggan_id = ' + str(id_user) + '', connection)
@@ -296,6 +304,11 @@ def getPrediksi(id_user):
         hasil.sort( key = lambda x: float(x[0]),  reverse = True)
         # print(hasil)      
         return hasil
+
+# for line in skenario.itertuples():
+#     print(line[1])
+#     print(getPrediksi(line[1]))
+
 # print("alvis")
 # print(getPrediksi(21))
 # print("bud")

@@ -7,11 +7,11 @@ import os
 # Create your models here.
 class Pelanggan(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
-    address = models.CharField(max_length = 250, default = "-", null = True)
-    phone_number = models.CharField(max_length = 250, default = "-")
-    bio = models.TextField(max_length=250, default = "-")
-    birth_date = models.DateField(null=True,  default = "-")
-    postal_code = models.CharField(max_length= 10, default = "-", null = True)
+    address = models.CharField(max_length = 250, null = True)
+    phone_number = models.CharField(max_length = 250)
+    bio = models.TextField(max_length=250)
+    birth_date = models.DateField(null=True, default = "1997-01-29")
+    postal_code = models.CharField(max_length= 10, null = True)
     def content_file_name(instance, filename):
         ext 		= filename.split('.')[-1]
         filename 	= "%s.%s" % (instance.user, ext)
