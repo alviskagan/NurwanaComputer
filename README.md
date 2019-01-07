@@ -3,6 +3,7 @@
 
 <li> NLTK
 <li> WordNet
+<li> SQLite 
 <li> Information Content
 <li> Collaborative Filtering
 <li> Jiang-Conrath
