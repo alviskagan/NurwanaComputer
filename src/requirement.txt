@@ -30,7 +30,7 @@ Pillow==5.1.0
 prompt-toolkit==1.0.15
 pydot==1.2.4
 pydotplus==2.0.2
-Pygments==2.2.0
+Pygments==2.7.4
 PyMySQL==0.8.1
 pyparsing==2.2.0
 python-dateutil==2.7.3
